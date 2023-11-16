@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ten twentythree</title>
+    <link rel="stylesheet" href="assets/stylesheets/index.css">
+    <script src="assets/libraries/p5.min.js"></script>
+    <script src="assets/js/index.js"></script>
+</head>
+<body>
+    <div id="canvas_container"></div>
+    <div id="site_container">
+        <div id="header">
+            <div id="top-row" style="padding-bottom: 0; margin-bottom: 0;">
+                <div style="margin: 0; padding: 0;">
+                    <h1 id="tentwentythree" style="color: #22092C; margin-bottom: 0; padding-bottom: 0;">
+                        ten twentythree
+                    </h1>
+                </div>
+                <div style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: space-between; width: 50%">
+                    <h1 class="link" id="genart-link">generative art</h1>
+                    <h1 class="link" id="resume-link">résumé</h1>
+                    <h1 class="link" id="about-link">about</h1>
+                </div>
+            </div>
+            <div id="middle-row" style="padding-top: 0; margin-top: 0;">
+                <h1 style="color: #22092C; margin-top: 0;">
+                    sam webster - under construction!
+                </h1>
+            </div>
+            <div id="bottom-row">
+                <div>
+                    <input type="checkbox" id="simOffOnCheckbox" name="simOffOn" value="simOffOn" checked=true>
+                    <label for="simOffOn" style="font-weight: 250;">simulation on/off</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="gridOnCheckbox" name="gridOn" value="gridOn">
+                    <label for="gridOn" style="font-weight: 250;">grid</label>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // linking for header elements
+            document.getElementById("about-link").addEventListener('click', function() {
+                window.location.href = './pages/about.html';
+            });
+            document.getElementById("genart-link").addEventListener('click', function() {
+                window.location.href = './pages/genart.html';
+            });
+            document.getElementById("resume-link").addEventListener('click', function() {
+                window.location.href = './pages/resume.html';
+            });
+
+        </script>
+    </div>
+</body>
+</html>
