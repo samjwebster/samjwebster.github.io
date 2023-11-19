@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/stylesheets/general.css">
     <title>1023 - about</title>
 </head>
 <body>
+    <h1 class="link" id="back-link">back</h1>
     about page
+    <script>
+        document.getElementById("back-link").addEventListener('click', function() {
+                window.location.href = '../index.html';
+            });
+    </script>
 </body>
 </html>

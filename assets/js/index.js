@@ -6,6 +6,7 @@ let prevDims;
 let eggshell;
 
 let ss;
+let colors;
 
 function setup() {
     let dims = getWindowDims();
@@ -18,7 +19,8 @@ function setup() {
     eggshell = color("#f0ead6");
     background(eggshell);
 
-    ss = new SandSim(...dims, 20);
+    let sand_dim = 15;
+    ss = new SandSim(...dims, sand_dim);
 
     frameRate(60);
 
@@ -26,12 +28,42 @@ function setup() {
     gridOnCheckbox.addEventListener("change", function() {
         ss.toggleGrid();
     });
+    let rainCheckbox = document.getElementById("rainOnOff");
+    rainCheckbox.addEventListener("change", function() {
+        toggleRain();
+    });
     let simOffOnCheckbox =document.getElementById("simOffOnCheckbox");
     simOffOnCheckbox.addEventListener("change", function() {
         toggleSim(simOffOnCheckbox.checked);
     });
+    let clearSandButton = document.getElementById("clearSand");
+    clearSandButton.addEventListener("click", function() {
+        ss.clearSand();
+    });
+    let newColorsButton = document.getElementById("newColors");
+    newColorsButton.addEventListener("click", function() {
+        ss.newColors();
+    })
+
+    basic_colors = [];
+    colors = [];
+    let cc = 20;
+    colorMode(HSB)
+    for(let i = 0; i < cc; i++) {
+        let t = i/(cc-1);
+        h = t*360;
+        basic_colors.push(color(h, 60, 67));
+    }
+    colorMode(RGB)
+    colors = basic_colors
+
+    noiseDetail(5, .7);
 
     // noLoop();
+
+    for(let i = 0; i < 5000; i++) {
+        ss.spawnSand(random()*width, random()*height);
+    }
 }
 
 let loading_timer = 10;
@@ -42,7 +74,16 @@ function draw() {
     }
     background(eggshell)
     ss.update();
+
+    if(rain) ss.spawnSand(random()*width, -0.05*height);
 }
+
+
+let rain = true;
+function toggleRain() {
+    rain = !rain;
+}
+
 
 let sim_status = true;
 function toggleSim(status) {
@@ -70,6 +111,8 @@ function windowResized() {
 
     prevDims = newDims;
 
+    ss.resize();
+
 }
 
 function mouseMoved() {
@@ -89,44 +132,33 @@ class SandSim {
         this.gridOn = false;
         this.taken = {};
 
-        this.alive = [];
-        this.dead = [];
+        this.sand = [];
+
+        this.noiseSeed = round(random(999999));
 
         this.floor_j = (height/this.dim);
+
+        this.color_map = {};
+    }
+
+    newColors() {
+        this.noiseSeed = round(random(999999));
+        this.color_map = {};
+        this.sand.forEach(s => s.updateColor());
     }
 
     update() {
         if (this.gridOn == true) this.drawGrid();
-
-        this.dead.forEach(sand => {
-            sand.render();
-        });
-        
-        let dead_idx = [];
-        for(let i = 0; i < this.alive.length; i++) {
-            let sand = this.alive[i];
-            sand.update();
-            if(sand.isDead()) {
-                dead_idx.push(i);
-            }
-        }
-
-        dead_idx.reverse();
-        dead_idx.forEach(i => {
-            let sand = this.alive.splice(i, 1)[0];
-            this.dead.push(sand);
-        });
-
-        
+        this.sand.forEach(s => s.update());
     }
 
     toggleGrid() {
-        console.log('here')
         this.gridOn = !this.gridOn;
     }
 
     drawGrid() {
         noFill();
+        strokeWeight(1);
         stroke(color("#22092C"));
         
         let x = 0;
@@ -147,8 +179,8 @@ class SandSim {
         let i = floor(x/this.dim);
         let j = floor(y/this.dim);
         if(this.isFree(i, j)) {
-            let col = color("#AA4A44")
-            this.alive.push(new Sand(this, i, j, col, this.dim));
+            let col = this.getColor(i,j);
+            this.sand.push(new Sand(this, i, j, col, this.dim));
             this.markTaken(i, j);
         }
     }
@@ -178,6 +210,29 @@ class SandSim {
         }
         return !this.taken[i][j];
     }
+
+    getColor(i, j) {
+        if(!this.color_map[i]) {
+            this.color_map[i] = {};
+        }
+
+        if(!this.color_map[i][j]) {
+            let n = min(0.999, max(0, noise(i*0.01, j*0.01, this.noiseSeed)));
+            this.color_map[i][j] = colors[floor(n*colors.length)];
+        }
+
+        return this.color_map[i][j]
+    }
+
+    resize() {
+        this.floor_j = (height/this.dim);
+        this.sand.forEach(s => s.revive());
+    }
+
+    clearSand() {
+        this.sand.forEach(s => this.markFree(s.i, s.j));
+        this.sand = [];
+    }
 }
 
 class Sand {
@@ -193,15 +248,18 @@ class Sand {
 
         this.parent = parent;
 
-        this.death_buffer = 5;
-        this.death_buffer_reset = 5;
+        this.death_buffer_reset = 10;
+        this.death_buffer = this.death_buffer_reset;
+        
     }
 
     update() {
         this.render();
+        if(this.status == false) return;
         let down = [this.i, this.j+1];
         if(this.parent.isFree(...down)) {
             this.moveTo(...down);
+            this.updateColor();
         } else {
             this.death_buffer -= 1;
             if (!this.death_buffer) {
@@ -210,11 +268,19 @@ class Sand {
         }
     }
 
+    updateColor() {
+        this.col = this.parent.getColor(this.i, this.j);
+    }
+
     die() {
         this.status = false;
     }
     isDead() {
         return !this.status;
+    }
+    revive() {
+        this.status = true;
+        this.death_buffer = this.death_buffer_reset;
     }
 
     moveTo(i, j) {
@@ -232,7 +298,7 @@ class Sand {
 
     render() {
         fill(this.col);
-        stroke(this.col);
+        noStroke();
         rect(this.x, this.y, this.dim, this.dim);
     }
 }

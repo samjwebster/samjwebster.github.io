@@ -9,6 +9,14 @@
     --red: #AA4A44;
 }
 
+input {
+    font-family: RobotoMono;
+}
+
+button {
+    background: none;
+}
+
 body, html {
     font-family: RobotoMono;
     margin: 0;
