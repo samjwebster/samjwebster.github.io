@@ -58,15 +58,13 @@ function setup() {
     colors = basic_colors
 
     noiseDetail(5, .7);
-
-    // noLoop();
-
-    for(let i = 0; i < 5000; i++) {
-        ss.spawnSand(random()*width, random()*height);
-    }
 }
 
 let loading_timer = 10;
+let rainInterval = 10;
+let rainTime = 0;
+let rainOn = true;
+
 function draw() {
     if(loading_timer > 0) {
         loading_timer -= 1;
@@ -75,13 +73,19 @@ function draw() {
     background(eggshell)
     ss.update();
 
-    if(rain) ss.spawnSand(random()*width, -0.05*height);
+    if(rainOn) {
+        rainTime += deltaTime/10;
+        if(rainTime >= rainInterval) {
+            ss.spawnSand(random()*width, -0.05*height);
+            rainTime = 0;
+        } 
+    } 
 }
 
 
-let rain = true;
+
 function toggleRain() {
-    rain = !rain;
+    rainOn = !rainOn;
 }
 
 
@@ -159,7 +163,9 @@ class SandSim {
     drawGrid() {
         noFill();
         strokeWeight(1);
-        stroke(color("#22092C"));
+        let gridColOpaque = color("#22092C")
+        let gridCol = colorTransparent(gridColOpaque, 0.5);
+        stroke(gridCol);
         
         let x = 0;
         while (x < width) {
@@ -301,4 +307,11 @@ class Sand {
         noStroke();
         rect(this.x, this.y, this.dim, this.dim);
     }
+}
+
+function colorTransparent(col, amount) {
+    if(amount < 0) amount = 0;
+    if(amount > 1) amount = 1;
+    let l = col.levels;
+    return color(l[0], l[1], l[2], amount*255);
 }

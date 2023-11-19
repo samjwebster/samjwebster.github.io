@@ -1,0 +1,57 @@
+@font-face {
+    font-family: RobotoMono;
+    src: url("./RobotoMono.ttf");
+}
+
+:root {
+    --eggshell: #f0ead6;
+    --dark: #22092C;
+    --red: #AA4A44;
+}
+
+html {
+    font-family: RobotoMono;
+}
+
+body {
+    background-color: #f0ead6;
+}
+
+h1 {
+    font-weight: 250;
+    font-size: 102.3%;
+}
+
+#header {
+    padding: 1% 3% 1% 3%;
+    border-bottom: 0.1em dashed var(--dark);
+    background-color: var(--eggshell);
+
+}
+
+#bottom-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+#top-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#tentwentythree {
+    justify-self: left;
+}
+
+.link {
+    text-decoration: underline 5%;
+}
+
+.link:hover {
+    cursor: pointer;
+}
