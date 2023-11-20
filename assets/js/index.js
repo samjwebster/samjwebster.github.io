@@ -28,6 +28,10 @@ function setup() {
     gridOnCheckbox.addEventListener("change", function() {
         ss.toggleGrid();
     });
+    let trailCheckbox = document.getElementById("trailOnOff");
+    trailCheckbox.addEventListener("change", function() {
+        toggleTrail();
+    });
     let rainCheckbox = document.getElementById("rainOnOff");
     rainCheckbox.addEventListener("change", function() {
         toggleRain();
@@ -64,6 +68,7 @@ let loading_timer = 10;
 let rainInterval = 10;
 let rainTime = 0;
 let rainOn = true;
+let trailOn = true;
 
 function draw() {
     if(loading_timer > 0) {
@@ -86,6 +91,10 @@ function draw() {
 
 function toggleRain() {
     rainOn = !rainOn;
+}
+
+function toggleTrail() {
+    trailOn = !trailOn;
 }
 
 
@@ -116,16 +125,13 @@ function windowResized() {
     prevDims = newDims;
 
     ss.resize();
-
 }
 
 function mouseMoved() {
-    if(!sim_status) return;
-    
+    if(!sim_status || !trailOn) return;
     if(abs(mouseX - pmouseX) > 4 || abs(mouseY - pmouseY) > 4) {
         ss.spawnSand(mouseX, mouseY);
     }
-    
 }
 
 class SandSim {
