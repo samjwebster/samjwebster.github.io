@@ -81,7 +81,14 @@ function draw() {
     if(rainOn) {
         rainTime += deltaTime/10;
         if(rainTime >= rainInterval) {
-            ss.spawnSand(random()*width, -0.05*height);
+            // Spawn 1 to 5 grains of sand
+            for(let i = 0; i < floor(random(1, 5)); i++) {
+                ss.spawnSand(random()*width, -0.05*height);
+            }
+
+            
+            
+            // ss.spawnSand(random()*width, -0.05*height);
             rainTime = 0;
         } 
     } 

@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ten twentythree</title>
+    <title>sam webster</title>
     <link rel="stylesheet" href="assets/stylesheets/index.css">
+    <link rel="icon" href="assets/other/favicon.png" type="image/png">
     <script src="assets/libraries/p5.min.js"></script>
-    <script src="assets/js/index.js"></script>
+    <!-- <script src="assets/js/index.js"></script> -->
 </head>
 <body>
     <div id="canvas_container"></div>
@@ -15,58 +16,66 @@
             <div id="top-row" style="padding-bottom: 0; margin-bottom: 0;">
                 <div style="margin: 0; padding: 0;">
                     <h1 id="tentwentythree" style="color: #22092C; margin-bottom: 0; padding-bottom: 0;">
-                        ten twentythree
+                        <b class="link" id="home-link">sam webster</b>
                     </h1>
                 </div>
-                <div style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: space-between; width: 50%">
+                <div style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: space-between; width: 66%">
+                    <h1 class="link" id="research-link">research</h1>
                     <h1 class="link" id="genart-link">generative art</h1>
-                    <h1 class="link" id="resume-link">résumé</h1>
+                    <!-- <h1 class="link" id="resume-link">résumé</h1> -->
                     <h1 class="link" id="about-link">about</h1>
                 </div>
             </div>
             <div id="middle-row" style="padding-top: 0; margin-top: 0;">
                 <h1 style="color: #22092C; margin-top: 0;">
-                    sam webster - under construction!
+                    phd student in computer science @ notre dame
                 </h1>
             </div>
-            <div id="bottom-row">
-                <div>
-                    <input type="checkbox" id="simOffOnCheckbox" name="simOffOn" value="simOffOn" checked=true>
-                    <label for="simOffOn" style="font-weight: 250;">on/off</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="trailOnOff" name="trailOnOff" value="trailOnOff" checked=true>
-                    <label for="rainOnOff" style="font-weight: 250;">trail</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="rainOnOff" name="rainOnOff" value="rainOnOff" checked=true>
-                    <label for="rainOnOff" style="font-weight: 250;">rain</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="gridOnCheckbox" name="gridOn" value="gridOn">
-                    <label for="gridOn" style="font-weight: 250;">grid</label>
-                </div>
-                <div>
-                    <input type="button" id="clearSand" name="clearSand" value="clear sand">
-                </div>
-                <div>
-                    <input type="button" id="newColors" name="newColors" value="new colors">
-                </div>
-            </div>
+        </div>
+
+        <div id="content" style="padding: 1em;">
+            <!-- Brief Summary -->
+            <h1 style="color: #22092C; margin-top: 0;">
+                * I am a PhD student in computer science at the <a href="https://www.cse.nd.edu/" target="_blank">University of Notre Dame</a>, advised by <a href="https://www.wjscheirer.com/" target="_blank">Prof. Walter J. Scheirer</a>. As a Master's student, I was advised by <a href="https://www.linkedin.com/in/adam-maciej-czajka/" target="_blank">Prof. Adam Czajka</a>. I am a member of the <a href="https://cvrl.nd.edu/" target="_blank">Computer Vision Research Lab</a> at Notre Dame. My research interests include computer vision, human-inspired learning, and biometrics. 
+            </h1>
+
+            <!-- Gen Art -->
+            <h1 style="color: #22092C; margin-top: 0;">
+                * I also create generative (algorithmic) art under the name <a href="https://x.com/tntwntythr" target="_blank">ten twentythree</a>. I use <a href="https://p5js.org/" target="_blank">p5.js</a>, a JavaScript library for creative coding.
+            </h1>
+            
+            <!-- Directory -->
+            <h1 style="color: #22092C; margin-top: 0;">
+                * The navbar links to relevant pages:
+                <ul>
+                    <li>
+                        <a href="pages/research.html">Research</a> - my research projects and publications
+                    </li>
+                    <li>
+                        <a href="pages/genart.html">Generative Art</a> - my generative art projects
+                    </li>
+                    <li>
+                        <a href="pages/about.html">About</a> - my curriculum vitae and contact information
+                    </li>
+                </ul>
+            </h1>
+
         </div>
 
         <script>
             // linking for header elements
+            document.getElementById("home-link").addEventListener('click', function() {
+                window.location.href = './index.html';
+            });
+            document.getElementById("research-link").addEventListener('click', function() {
+                window.location.href = './pages/research.html';
+            });
             document.getElementById("about-link").addEventListener('click', function() {
                 window.location.href = './pages/about.html';
             });
             document.getElementById("genart-link").addEventListener('click', function() {
                 window.location.href = './pages/genart.html';
             });
-            document.getElementById("resume-link").addEventListener('click', function() {
-                window.location.href = './assets/other/samuel_webster_resume_11_20_2023.pdf';
-            });
-
         </script>
     </div>
 </body>
