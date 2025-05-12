@@ -1,1 +1,58 @@
- 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/stylesheets/index.css">
+    <title>research - sam webster</title>
+</head>
+<body>
+    <div id="site_container">
+        <div id="header">
+            <div id="top-row" style="padding-bottom: 0; margin-bottom: 0;">
+                <div style="margin: 0; padding: 0;">
+                    <h1 id="tentwentythree" style="color: #22092C; margin-bottom: 0; padding-bottom: 0;">
+                        <b class="link" id="home-link">sam webster</b>
+                    </h1>
+                </div>
+                <div style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: space-between; width: 66%">
+                    <h1 class="link link-selected" id="research-link">research</h1>
+                    <h1 class="link" id="genart-link">generative art</h1>
+                    <h1 class="link" id="about-link">about</h1>
+                </div>
+            </div>
+            <div id="middle-row" style="padding-top: 0; margin-top: 0;">
+                <h1 style="color: #22092C; margin-top: 0;">
+                    phd student in computer science @ notre dame
+                </h1>
+            </div>
+        </div>
+    
+
+        <div id="content-container" style="padding: 0; margin: 0; width: 100vw; display: flex; flex-direction: column; align-items: center;">
+            <h1>under construction!</h1>
+        </div>
+
+    </div>
+
+    <script>
+        // linking for header elements
+        document.getElementById("home-link").addEventListener('click', function() {
+            window.location.href = '../index.html';
+        });
+        document.getElementById("research-link").addEventListener('click', function() {
+            window.location.href = './research.html';
+        });
+        document.getElementById("about-link").addEventListener('click', function() {
+            window.location.href = './about.html';
+        });
+        document.getElementById("genart-link").addEventListener('click', function() {
+            window.location.href = './genart.html';
+        });
+    </script>
+
+    <script src="../assets/js/collapisble.js"></script>
+    
+
+</body>
+</html>
