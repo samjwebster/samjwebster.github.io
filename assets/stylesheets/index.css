@@ -96,6 +96,8 @@ p {
 
 .link {
     color: #222034;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
     /* text-decoration: underline 5%; */
 }
 
