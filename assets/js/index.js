@@ -24,30 +24,30 @@ function setup() {
 
     frameRate(60);
 
-    let gridOnCheckbox = document.getElementById("gridOnCheckbox");
-    gridOnCheckbox.addEventListener("change", function() {
-        ss.toggleGrid();
-    });
-    let trailCheckbox = document.getElementById("trailOnOff");
-    trailCheckbox.addEventListener("change", function() {
-        toggleTrail();
-    });
-    let rainCheckbox = document.getElementById("rainOnOff");
-    rainCheckbox.addEventListener("change", function() {
-        toggleRain();
-    });
-    let simOffOnCheckbox =document.getElementById("simOffOnCheckbox");
-    simOffOnCheckbox.addEventListener("change", function() {
-        toggleSim(simOffOnCheckbox.checked);
-    });
-    let clearSandButton = document.getElementById("clearSand");
-    clearSandButton.addEventListener("click", function() {
-        ss.clearSand();
-    });
-    let newColorsButton = document.getElementById("newColors");
-    newColorsButton.addEventListener("click", function() {
-        ss.newColors();
-    })
+    // let gridOnCheckbox = document.getElementById("gridOnCheckbox");
+    // gridOnCheckbox.addEventListener("change", function() {
+    //     ss.toggleGrid();
+    // });
+    // let trailCheckbox = document.getElementById("trailOnOff");
+    // trailCheckbox.addEventListener("change", function() {
+    //     toggleTrail();
+    // });
+    // let rainCheckbox = document.getElementById("rainOnOff");
+    // rainCheckbox.addEventListener("change", function() {
+    //     toggleRain();
+    // });
+    // let simOffOnCheckbox =document.getElementById("simOffOnCheckbox");
+    // simOffOnCheckbox.addEventListener("change", function() {
+    //     toggleSim(simOffOnCheckbox.checked);
+    // });
+    // let clearSandButton = document.getElementById("clearSand");
+    // clearSandButton.addEventListener("click", function() {
+    //     ss.clearSand();
+    // });
+    // let newColorsButton = document.getElementById("newColors");
+    // newColorsButton.addEventListener("click", function() {
+    //     ss.newColors();
+    // })
 
     basic_colors = [];
     colors = [];
@@ -56,7 +56,11 @@ function setup() {
     for(let i = 0; i < cc; i++) {
         let t = i/(cc-1);
         h = t*360;
-        basic_colors.push(color(h, 60, 67));
+        let new_col = color(h, 70, 70, 0.35);
+        // new_col.levels[3] = 100;
+        print(new_col);
+        basic_colors.push(new_col)
+        // basic_colors.push(colorTransparent(color(h, 20, 70), 0.25));
     }
     colorMode(RGB)
     colors = basic_colors
@@ -82,9 +86,16 @@ function draw() {
         rainTime += deltaTime/10;
         if(rainTime >= rainInterval) {
             // Spawn 1 to 5 grains of sand
-            for(let i = 0; i < floor(random(1, 5)); i++) {
-                ss.spawnSand(random()*width, -0.05*height);
-            }
+            // for(let i = 0; i < floor(random(3, 8)); i++) {
+            //     ss.spawnSand(random()*width, -0.05*height);
+            // }
+
+            ss.spawnSand(width * noise(frameCount * 0.01), -0.05*height);
+
+            ss.spawnSand(width * noise(4, frameCount * 0.01), -0.05*height);
+
+            // ss.spawnSand(width * map(noise(frameCount * 0.01, frameCount / 9), 0.1, 0.9, 0, 1, true), -0.05*height);
+
 
             
             
@@ -276,8 +287,23 @@ class Sand {
         this.render();
         if(this.status == false) return;
         let down = [this.i, this.j+1];
+        let down_left = [this.i-1, this.j+1];
+        let down_right = [this.i+1, this.j+1];
         if(this.parent.isFree(...down)) {
             this.moveTo(...down);
+            this.updateColor();
+        } else if (this.parent.isFree(...down_left) && this.parent.isFree(...down_right)) {
+            if (random() < 0.5) {
+                this.moveTo(...down_left);
+            } else {
+                this.moveTo(...down_right);
+            }
+            this.updateColor();
+        } else if (this.parent.isFree(...down_left)) {
+            this.moveTo(...down_left);
+            this.updateColor();
+        } else if (this.parent.isFree(...down_right)) {
+            this.moveTo(...down_right);
             this.updateColor();
         } else {
             this.death_buffer -= 1;
@@ -316,8 +342,19 @@ class Sand {
     }
 
     render() {
-        fill(this.col);
-        noStroke();
+
+        let lerped_col = lerpColor(this.col, color(this.col.levels[0], this.col.levels[1], this.col.levels[2], 0, 0.1), lerp(0.1, 1.2, 1 - (this.y/height)));
+
+        // Lerp 
+        fill(lerped_col);
+
+        let dist_to_mouse = dist(this.x, this.y, mouseX, mouseY);
+        if(dist_to_mouse < 40) {
+            stroke(255, 255, 255, map(dist_to_mouse, 0, 40, 255, 0));
+        } else {
+            noStroke();
+        }
+
         rect(this.x, this.y, this.dim, this.dim);
     }
 }

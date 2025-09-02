@@ -13,7 +13,7 @@
             <div id="top-row" style="padding-bottom: 0; margin-bottom: 0;">
                 <div style="margin: 0; padding: 0; width: 25%;">
                     <h1 id="tentwentythree" style="color: #22092C; margin-bottom: 0; padding-bottom: 0;">
-                        <b class="link" id="home-link">sam webster</b>
+                        <b class="link" style="margin: 0;" id="home-link">sam webster</b>
                     </h1>
                 </div>
                 <div style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: space-between; width: 75%">
@@ -46,7 +46,7 @@
 
             <div id="cards-container" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 0; margin: 0;">
 
-                <div class="card">
+                <div class="card" id="airflow-card">
                     <b>Airflow</b>
                     <img class="thumbnail" src="../assets/imgs/genart/flow-layers.jpeg"/>
                     <p>In Progress</p>
@@ -139,6 +139,12 @@
         document.getElementById("genart-link").addEventListener('click', function() {
             window.location.href = './genart.html';
         });
+
+        // linking for cards
+        document.getElementById("airflow-card").addEventListener('click', function() {
+            window.location.href = './genart/airflow.html';
+        });
+
     </script>
 
     <script src="../assets/js/collapisble.js"></script>
