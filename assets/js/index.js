@@ -1,367 +1,236 @@
-let canvas;
-let downscale = 10;
-let g;
-let origin;
 let prevDims;
+let canvas;
+let p, c, renderGenerator;
 let eggshell;
-
-let ss;
-let colors;
 
 function setup() {
     let dims = getWindowDims();
     prevDims = dims;
-    origin = [0,0]
     canvas = createCanvas(...dims);
     canvas.parent(canvas_container);
     canvas.id = "backdrop";
 
     eggshell = color("#f0ead6");
-    background(eggshell);
 
-    let sand_dim = 15;
-    ss = new SandSim(...dims, sand_dim);
+    frameRate(4);
 
-    frameRate(60);
+    p = getPalette();
+    p.shuffle();
 
-    // let gridOnCheckbox = document.getElementById("gridOnCheckbox");
-    // gridOnCheckbox.addEventListener("change", function() {
-    //     ss.toggleGrid();
-    // });
-    // let trailCheckbox = document.getElementById("trailOnOff");
-    // trailCheckbox.addEventListener("change", function() {
-    //     toggleTrail();
-    // });
-    // let rainCheckbox = document.getElementById("rainOnOff");
-    // rainCheckbox.addEventListener("change", function() {
-    //     toggleRain();
-    // });
-    // let simOffOnCheckbox =document.getElementById("simOffOnCheckbox");
-    // simOffOnCheckbox.addEventListener("change", function() {
-    //     toggleSim(simOffOnCheckbox.checked);
-    // });
-    // let clearSandButton = document.getElementById("clearSand");
-    // clearSandButton.addEventListener("click", function() {
-    //     ss.clearSand();
-    // });
-    // let newColorsButton = document.getElementById("newColors");
-    // newColorsButton.addEventListener("click", function() {
-    //     ss.newColors();
-    // })
+    noStroke();
+    rectMode(CENTER);
 
-    basic_colors = [];
-    colors = [];
-    let cc = 20;
-    colorMode(HSB)
-    for(let i = 0; i < cc; i++) {
-        let t = i/(cc-1);
-        h = t*360;
-        let new_col = color(h, 70, 70, 0.35);
-        // new_col.levels[3] = 100;
-        print(new_col);
-        basic_colors.push(new_col)
-        // basic_colors.push(colorTransparent(color(h, 20, 70), 0.25));
-    }
-    colorMode(RGB)
-    colors = basic_colors
-
-    noiseDetail(5, .7);
+    c = new Composition();
+    c.render();
 }
 
-let loading_timer = 10;
-let rainInterval = 10;
-let rainTime = 0;
-let rainOn = true;
-let trailOn = true;
+function restart_composition() {
+    c = new Composition();
+    c.render();
+}
 
+let rounds = 0;
 function draw() {
-    if(loading_timer > 0) {
-        loading_timer -= 1;
-        return;
-    }
-    background(eggshell)
-    ss.update();
+    // if (millis() < 10000) noLoop(); // give time for page to load
+    rounds++;
+    console.log("round:", rounds);
+    // console.log("updating!")
+    c.update();
+    console.log("rendering!")
+    c.render();
 
-    if(rainOn) {
-        rainTime += deltaTime/10;
-        if(rainTime >= rainInterval) {
-            // Spawn 1 to 5 grains of sand
-            // for(let i = 0; i < floor(random(3, 8)); i++) {
-            //     ss.spawnSand(random()*width, -0.05*height);
-            // }
-
-            ss.spawnSand(width * noise(frameCount * 0.01), -0.05*height);
-
-            ss.spawnSand(width * noise(4, frameCount * 0.01), -0.05*height);
-
-            // ss.spawnSand(width * map(noise(frameCount * 0.01, frameCount / 9), 0.1, 0.9, 0, 1, true), -0.05*height);
-
-
-            
-            
-            // ss.spawnSand(random()*width, -0.05*height);
-            rainTime = 0;
-        } 
-    } 
 }
 
+class Composition {
+    constructor() {
+        let tVal = 0.95 * 256;
+        this.topLeft = colTrans(p.get(0), tVal);
+        this.topRight = colTrans(p.get(1), tVal);
+        this.bottomLeft = colTrans(p.get(2), tVal);
+        this.bottomRight = colTrans(p.get(3), tVal);
+        this.num_updates = 0;
 
+        this.data = {};
 
-function toggleRain() {
-    rainOn = !rainOn;
-}
-
-function toggleTrail() {
-    trailOn = !trailOn;
-}
-
-
-let sim_status = true;
-function toggleSim(status) {
-    sim_status = status;
-    if(status == true) {
-        frameRate(60);
-    } else {
-        frameRate(0);
-    }
-}
-
-function getWindowDims() {
-    return [window.innerWidth, window.innerHeight];
-}
-
-function windowResized() {
-    let newDims = getWindowDims();
-    diffX = prevDims[0] - newDims[0];
-    diffY = prevDims[1] - newDims[1];
-
-    origin[0] -= diffX;
-    origin[1] -= diffY;
-
-    resizeCanvas(...newDims);
-
-    prevDims = newDims;
-
-    ss.resize();
-}
-
-function mouseMoved() {
-    if(!sim_status || !trailOn) return;
-    if(abs(mouseX - pmouseX) > 4 || abs(mouseY - pmouseY) > 4) {
-        ss.spawnSand(mouseX, mouseY);
-    }
-}
-
-class SandSim {
-    constructor(width, height, dim) {
-        this.width = width;
-        this.height = height;
-        this.dim = dim;
-        this.gridOn = false;
-        this.taken = {};
-
-        this.sand = [];
-
-        this.noiseSeed = round(random(999999));
-
-        this.floor_j = (height/this.dim);
-
-        this.color_map = {};
+        this.initialize();        
     }
 
-    newColors() {
-        this.noiseSeed = round(random(999999));
-        this.color_map = {};
-        this.sand.forEach(s => s.updateColor());
-    }
-
-    update() {
-        if (this.gridOn == true) this.drawGrid();
-        this.sand.forEach(s => s.update());
-    }
-
-    toggleGrid() {
-        this.gridOn = !this.gridOn;
-    }
-
-    drawGrid() {
-        noFill();
-        strokeWeight(1);
-        let gridColOpaque = color("#22092C")
-        let gridCol = colorTransparent(gridColOpaque, 0.5);
-        stroke(gridCol);
-        
-        let x = 0;
-        while (x < width) {
-            line(x, 0, x, height);
-            x += this.dim;
+    initialize() {
+        this.automata = [];
+        let nAutomata = 5;
+        for(let i = 0; i < nAutomata; i++) {
+            this.automata[i] = new ElementaryAutomata(round(random()*255));
         }
 
-        let y = 0;
-        while (y < height) {
-            line(0, y, width, y);
-            y += this.dim;
-        }
-    }
+        let desiredCountX = width/5;
+        let requiredWidth = floor(width / desiredCountX);
+        this.data.desiredWidth = requiredWidth;
+        // this.data.desiredWidth = 0.01 * width;
+        this.data.countX = ceil(width / this.data.desiredWidth);
+        this.data.cellW = width / this.data.countX;
 
-    spawnSand(x, y) {
-        // convert x, y to i, j
-        let i = floor(x/this.dim);
-        let j = floor(y/this.dim);
-        if(this.isFree(i, j)) {
-            let col = this.getColor(i,j);
-            this.sand.push(new Sand(this, i, j, col, this.dim));
-            this.markTaken(i, j);
-        }
-    }
+        this.data.desiredHeight = this.data.desiredWidth;
+        this.data.countY = ceil(height / this.data.desiredHeight);
+        this.data.cellH = height / this.data.countY;
 
-    markTaken(i, j) {
-        if(!this.taken[i]) {
-            this.taken[i] = {};
-        }
-        this.taken[i][j] = true;
-    }
+        this.grid = [];
 
-    markFree(i, j) {
-        if(!this.taken[i]) {
-            this.taken[i] = {};
-        }
-        this.taken[i][j] = false;
-    }
+        this.data.nDim = min(width, height);
+        this.data.nDetail = 8;
+        this.data.offX = random()*999999;
+        this.data.offY = random()*999999;
 
-    isFree(i, j) {
-        if(j >= this.floor_j) return false;
+        this.data.nFunc = (x, y) => map(noise(this.data.offX + ((x/this.data.nDim) * this.data.nDetail), this.data.offY + ((y/this.data.nDim) * this.data.nDetail)), 0.2, 0.8, 0, 0.9999, true);
 
-        if(!this.taken[i]) {
-            this.taken[i] = {};
-        }
-        if(!this.taken[i][j]) {
-            this.taken[i][j] = false;
-        }
-        return !this.taken[i][j];
-    }
+        for(let i = 0; i < this.data.countX; i++) {
+            this.grid.push([]);
+            let ti = i/this.data.countX;
+            let x = lerp(0, width, ti);
+            for(let j = 0; j < this.data.countY; j++) {
+                let tj = j/this.data.countY;
+                let y = lerp(0, height, tj);
 
-    getColor(i, j) {
-        if(!this.color_map[i]) {
-            this.color_map[i] = {};
-        }
+                let n = this.data.nFunc(x, y);
 
-        if(!this.color_map[i][j]) {
-            let n = min(0.999, max(0, noise(i*0.01, j*0.01, this.noiseSeed)));
-            this.color_map[i][j] = colors[floor(n*colors.length)];
-        }
-
-        return this.color_map[i][j]
-    }
-
-    resize() {
-        this.floor_j = (height/this.dim);
-        this.sand.forEach(s => s.revive());
-    }
-
-    clearSand() {
-        this.sand.forEach(s => this.markFree(s.i, s.j));
-        this.sand = [];
-    }
-}
-
-class Sand {
-    constructor(parent, i, j, col, dim) {
-        this.status = true;
-        this.i = i;
-        this.j = j;
-        this.col = col;
-        this.dim = dim;
-
-        this.x = this.i*dim;
-        this.y = this.j*dim;
-
-        this.parent = parent;
-
-        this.death_buffer_reset = 10;
-        this.death_buffer = this.death_buffer_reset;
-        
-    }
-
-    update() {
-        this.render();
-        if(this.status == false) return;
-        let down = [this.i, this.j+1];
-        let down_left = [this.i-1, this.j+1];
-        let down_right = [this.i+1, this.j+1];
-        if(this.parent.isFree(...down)) {
-            this.moveTo(...down);
-            this.updateColor();
-        } else if (this.parent.isFree(...down_left) && this.parent.isFree(...down_right)) {
-            if (random() < 0.5) {
-                this.moveTo(...down_left);
-            } else {
-                this.moveTo(...down_right);
+                this.grid[i].push(new Cell(
+                    x, y, this.data.cellW, this.data.cellH, 
+                    n, 
+                    lerpColor(this.topLeft, this.topRight, ti), 
+                    lerpColor(this.bottomLeft, this.bottomRight, ti), 
+                    this.automata[floor(n * this.automata.length)].col
+                ));
             }
-            this.updateColor();
-        } else if (this.parent.isFree(...down_left)) {
-            this.moveTo(...down_left);
-            this.updateColor();
-        } else if (this.parent.isFree(...down_right)) {
-            this.moveTo(...down_right);
-            this.updateColor();
-        } else {
-            this.death_buffer -= 1;
-            if (!this.death_buffer) {
-                this.die();
+        }
+
+        // Set starters
+        let nstarters = round(random(0.25*this.data.countX, 0.50*this.data.countX));
+        let startarr = [];
+        for(let i = 0; i < this.data.countX; i++) startarr.push(i);
+        startarr = shuffleArray(startarr);
+
+        for(let i = 0; i < nstarters; i++) {
+            this.grid[startarr[i]][0].updateState(1);
+        }
+
+        for(let i = 0; i < this.data.countY - 1; i++) {
+            for(let j = 0; j < this.data.countX; j++) {
+                let cell = this.grid[j][i];
+                let left = this.grid[(j - 1 + this.data.countX) % this.data.countX][i];
+                let right = this.grid[(j + 1) % this.data.countX][i];
+
+                let newState = this.automata[floor(cell.n * this.automata.length)].calculateState(left.state, cell.state, right.state);
+                this.grid[j][i+1].updateState(newState);
             }
         }
     }
 
-    updateColor() {
-        this.col = this.parent.getColor(this.i, this.j);
-    }
+    update() {
+        this.num_updates += 1;
 
-    die() {
-        this.status = false;
-    }
-    isDead() {
-        return !this.status;
-    }
-    revive() {
-        this.status = true;
-        this.death_buffer = this.death_buffer_reset;
-    }
+        // shift the cells up and add a new row at the bottom
+        for(let j = 0; j < this.data.countX; j++) {
+            for(let i = 0; i < this.data.countY - 1; i++) {
+                let cellAbove = this.grid[j][i+1];
+                this.grid[j][i].updateState(cellAbove.state);
+                this.grid[j][i].n = cellAbove.n;
+                this.grid[j][i].nCol = cellAbove.nCol;
+            }
+        }
 
-    moveTo(i, j) {
-        this.parent.markFree(this.i, this.j);
+        // use second to last row to update last row
+        let i = this.data.countY - 2;
+        for(let j = 0; j < this.data.countX; j++) {
+            let cell = this.grid[j][i];
+            let left = this.grid[(j - 1 + this.data.countX) % this.data.countX][i];
+            let right = this.grid[(j + 1) % this.data.countX][i];
 
-        this.i = i;
-        this.j = j;
-        this.x = i*this.dim;
-        this.y = j*this.dim;
+            let newState = this.automata[floor(cell.n * this.automata.length)].calculateState(left.state, cell.state, right.state);
+            this.grid[j][this.data.countY - 1].updateState(newState);
+            this.grid[j][this.data.countY - 1].n = cell.n;
+            this.grid[j][this.data.countY - 1].nCol = cell.nCol;
+        }
 
-        this.parent.markTaken(i, j);
+        // get new n values for the bottom row
+        for(let j = 0; j < this.data.countX; j++) {
+            let x = this.grid[j][this.data.countY - 1].x;
+            let y = this.grid[j][this.data.countY - 1].y + this.data.cellH * (this.num_updates - 1);
+            this.grid[j][this.data.countY - 1].n = this.data.nFunc(x, y);
+            this.grid[j][this.data.countY - 1].nCol = this.automata[floor(this.grid[j][this.data.countY - 1].n * this.automata.length)].col;
+        }
 
-        this.death_buffer = this.death_buffer_reset;
+        
     }
 
     render() {
-
-        let lerped_col = lerpColor(this.col, color(this.col.levels[0], this.col.levels[1], this.col.levels[2], 0, 0.1), lerp(0.1, 1.2, 1 - (this.y/height)));
-
-        // Lerp 
-        fill(lerped_col);
-
-        let dist_to_mouse = dist(this.x, this.y, mouseX, mouseY);
-        if(dist_to_mouse < 40) {
-            stroke(255, 255, 255, map(dist_to_mouse, 0, 40, 255, 0));
-        } else {
-            noStroke();
+        // background(128);
+        for(let i = 0; i < this.grid[0].length; i++) {
+            for(let j = 0; j < this.grid.length; j++) {
+                this.grid[j][i].render();
+            }
         }
+    }
 
-        rect(this.x, this.y, this.dim, this.dim);
+    resize() {
+        return;
     }
 }
 
-function colorTransparent(col, amount) {
-    if(amount < 0) amount = 0;
-    if(amount > 1) amount = 1;
-    let l = col.levels;
-    return color(l[0], l[1], l[2], amount*255);
+class ElementaryAutomata {
+    constructor(ruleValue) {
+        this.ruleValue = ruleValue;
+        this.ruleSet = this.ruleValue.toString(2).padStart(8, "0");
+        this.col = p.r();
+    }
+
+    calculateState(a, b, c) {
+        let neighborhood = "" + a + b + c;
+        let value = 7 - parseInt(neighborhood, 2);
+        return parseInt(this.ruleSet[value]);
+    }
+}
+
+class Cell {
+    constructor(x, y, w, h, n, cTop, cBottom, nCol) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.n = n;
+        this.cTop = cTop;
+        this.cBottom = cBottom;
+        this.nCol = nCol;
+
+        this.dist_to_top = 1 - (this.y / height) ** 0.5;
+
+
+        this.state = 0;
+    }
+
+    updateState(state) {
+        this.state = state;
+    }
+
+    render() {    
+
+        let c = lerpColor(this.nCol, eggshell, this.dist_to_top);
+        fill(c);
+        // fill(lerpColor(this.nCol, eggshell, this.dist_to_top));
+        rect(this.x + this.w/2, this.y + this.h/2, this.w * 1.0, this.h * 1.0);
+
+
+        if(this.state == 0) {
+            c = lerpColor(this.cTop, eggshell, this.dist_to_top);
+            // fill(lerpColor(this.cTop, eggshell, this.dist_to_top));
+        } else {
+            c = lerpColor(this.cBottom, eggshell, this.dist_to_top);
+            // fill(lerpColor(this.cBottom, eggshell, this.dist_to_top));
+        }
+
+        fill(c);
+        
+        // fill(this.state == 0 ? color(255) : color(0));
+
+
+        rect(this.x + this.w/2, this.y + this.h/2, this.w * 1.05, this.h * 1.05);
+    }
 }

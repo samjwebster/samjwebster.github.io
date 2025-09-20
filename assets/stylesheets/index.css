@@ -17,6 +17,10 @@ button {
     background: none;
 }
 
+body {
+    background-color: var(--eggshell);
+}
+
 body, html {
     font-family: RobotoMono;
     margin: 0;
@@ -24,7 +28,7 @@ body, html {
     grid-template-columns: 1; /* Two equal columns */
     grid-template-rows: 1; /* 100% viewport height */
     /* overflow: hidden; */
-    background-color: var(--eggshell);
+    /* background-color: var(--eggshell); */
 }
 
 h1 {

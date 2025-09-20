@@ -8,9 +8,10 @@
     <link rel="icon" href="assets/other/favicon.png" type="image/png">
     <script src="assets/libraries/p5.min.js"></script>
     <script src="assets/js/index.js"></script>
+    <script src="assets/js/util.js"></script>
 </head>
 <body>
-    <div id="canvas_container"></div>
+    <div id="canvas_container" style="position: absolute; z-index: -100;"></div>
     <div id="site_container">
         <div id="header">
             <div id="top-row" style="padding-bottom: 0; margin-bottom: 0; width: 100%;">
@@ -22,7 +23,6 @@
                 <div style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: space-between; min-width: 75%">
                     <h1 class="link" id="research-link">research</h1>
                     <h1 class="link" id="genart-link">generative art</h1>
-                    <!-- <h1 class="link" id="resume-link">résumé</h1> -->
                     <h1 class="link" id="about-link">about</h1>
                 </div>
             </div>
@@ -33,19 +33,20 @@
             </div>
         </div>
 
-        <div id="content" style="padding: 1em 4em;">
-            <!-- Brief Summary -->
+        <div id="content" style="padding: 1em; background-color: rgba(255, 255, 255, 0.50);">
             <h1 style="color: #22092C; margin-top: 0;">
                 * I am a PhD student in computer science at the <a href="https://www.cse.nd.edu/" target="_blank">University of Notre Dame</a>, advised by <a href="https://www.wjscheirer.com/" target="_blank">Prof. Walter J. Scheirer</a>. As a Master's student, I was advised by <a href="https://www.linkedin.com/in/adam-maciej-czajka/" target="_blank">Prof. Adam Czajka</a>. I am a member of the <a href="https://cvrl.nd.edu/" target="_blank">Computer Vision Research Lab</a> at Notre Dame. My research interests include human-inspired learning, computer vision, and biometrics. 
+
+                <br>
+
+                Displayed is a generative artwork created by layering elementary cellular automata rules, generated using <a href="https://p5js.org/" target="_blank">p5.js</a>.
             </h1>
 
-            <!-- Gen Art -->
-            <h1 style="color: #22092C; margin-top: 0;">
+            <!-- <h1 style="color: #22092C; margin-top: 0;">
                 * I also create generative (algorithmic) art under the name <a href="https://x.com/tntwntythr" target="_blank">ten twentythree</a>. I use <a href="https://p5js.org/" target="_blank">p5.js</a>, a JavaScript library for creative coding.
-            </h1>
+            </h1> -->
             
-            <!-- Directory -->
-            <h1 style="color: #22092C; margin-top: 0;">
+            <!-- <h1 style="color: #22092C; margin-top: 0;">
                 * The navbar links to relevant pages:
                 <ul>
                     <li>
@@ -58,7 +59,7 @@
                         <a href="pages/about.html">About</a> - my curriculum vitae and contact information
                     </li>
                 </ul>
-            </h1>
+            </h1> -->
 
         </div>
 
