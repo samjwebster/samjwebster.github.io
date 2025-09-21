@@ -1,5 +1,5 @@
 let prevDims;
-let canvas;
+let canvas, canvas_container;
 let p, c, renderGenerator;
 let eggshell;
 
@@ -7,12 +7,11 @@ function setup() {
     let dims = getWindowDims();
     prevDims = dims;
     canvas = createCanvas(...dims);
+    canvas_container = document.getElementById("canvas_container");
     canvas.parent(canvas_container);
     canvas.id = "backdrop";
 
     eggshell = color("#f0ead6");
-
-    frameRate(4);
 
     p = getPalette();
     p.shuffle();
@@ -22,22 +21,31 @@ function setup() {
 
     c = new Composition();
     c.render();
+
+    // link the #reset-button to restart_composition
+    let reset_button = document.getElementById("reset-button");
+    reset_button.onclick = restart_composition;
+
 }
 
 function restart_composition() {
+    p = getPalette();
+    p.shuffle();
     c = new Composition();
     c.render();
 }
 
 let rounds = 0;
+let interval = 1000;
+let time_since_last = 0;
 function draw() {
-    // if (millis() < 10000) noLoop(); // give time for page to load
-    rounds++;
-    console.log("round:", rounds);
-    // console.log("updating!")
-    c.update();
-    console.log("rendering!")
-    c.render();
+    time_since_last += deltaTime;
+    if(time_since_last > interval) {
+        time_since_last = 0;
+        rounds++;
+        c.update();
+        c.render();
+    }
 
 }
 
@@ -122,10 +130,35 @@ class Composition {
                 this.grid[j][i+1].updateState(newState);
             }
         }
+
+        // Setup CSS canvas sliding
+        // move the canvas down by the height of one cell
+        // then transition it back up to 0 over the interval time
+        // Function to trigger the slide animation
+        this.triggerSlide = () => {
+            let slideAmount = this.data.cellH;
+            let slideTime = interval;
+            canvas_container.style.transition = "";
+            canvas_container.style.transform = `translateY(${slideAmount}px)`;
+
+            setTimeout(() => {
+            canvas_container.style.transition = `transform ${slideTime}ms linear`;
+            canvas_container.style.transform = `translateY(0px)`;
+            }, 20);
+
+            setTimeout(() => {
+            canvas_container.style.transition = "";
+            canvas_container.style.transform = "";
+            }, slideTime + 30);
+        };
+
+        // Trigger the slide animation initially
+        this.triggerSlide();
     }
 
     update() {
         this.num_updates += 1;
+        this.triggerSlide();
 
         // shift the cells up and add a new row at the bottom
         for(let j = 0; j < this.data.countX; j++) {
@@ -157,21 +190,14 @@ class Composition {
             this.grid[j][this.data.countY - 1].n = this.data.nFunc(x, y);
             this.grid[j][this.data.countY - 1].nCol = this.automata[floor(this.grid[j][this.data.countY - 1].n * this.automata.length)].col;
         }
-
-        
     }
 
     render() {
-        // background(128);
         for(let i = 0; i < this.grid[0].length; i++) {
             for(let j = 0; j < this.grid.length; j++) {
                 this.grid[j][i].render();
             }
         }
-    }
-
-    resize() {
-        return;
     }
 }
 
@@ -210,27 +236,12 @@ class Cell {
         this.state = state;
     }
 
-    render() {    
-
-        let c = lerpColor(this.nCol, eggshell, this.dist_to_top);
-        fill(c);
-        // fill(lerpColor(this.nCol, eggshell, this.dist_to_top));
-        rect(this.x + this.w/2, this.y + this.h/2, this.w * 1.0, this.h * 1.0);
-
-
-        if(this.state == 0) {
-            c = lerpColor(this.cTop, eggshell, this.dist_to_top);
-            // fill(lerpColor(this.cTop, eggshell, this.dist_to_top));
-        } else {
-            c = lerpColor(this.cBottom, eggshell, this.dist_to_top);
-            // fill(lerpColor(this.cBottom, eggshell, this.dist_to_top));
-        }
-
-        fill(c);
-        
-        // fill(this.state == 0 ? color(255) : color(0));
-
-
+    render() {
+        fill(lerpColor(
+            this.state == 0 ? this.cTop : this.cBottom,
+            this.nCol,
+            this.n * 0.25
+        ));
         rect(this.x + this.w/2, this.y + this.h/2, this.w * 1.05, this.h * 1.05);
     }
 }

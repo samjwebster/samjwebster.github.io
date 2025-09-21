@@ -11,7 +11,7 @@
     <script src="assets/js/util.js"></script>
 </head>
 <body>
-    <div id="canvas_container" style="position: absolute; z-index: -100;"></div>
+    <div id="canvas_container" style="position: absolute; z-index: -100; overflow: hidden;"></div>
     <div id="site_container">
         <div id="header">
             <div id="top-row" style="padding-bottom: 0; margin-bottom: 0; width: 100%;">
@@ -33,13 +33,17 @@
             </div>
         </div>
 
-        <div id="content" style="padding: 1em; background-color: rgba(255, 255, 255, 0.50);">
+        <div id="content" style="padding: 0.5em; margin: 0.5em; background-color: #f0ead6;">
             <h1 style="color: #22092C; margin-top: 0;">
-                * I am a PhD student in computer science at the <a href="https://www.cse.nd.edu/" target="_blank">University of Notre Dame</a>, advised by <a href="https://www.wjscheirer.com/" target="_blank">Prof. Walter J. Scheirer</a>. As a Master's student, I was advised by <a href="https://www.linkedin.com/in/adam-maciej-czajka/" target="_blank">Prof. Adam Czajka</a>. I am a member of the <a href="https://cvrl.nd.edu/" target="_blank">Computer Vision Research Lab</a> at Notre Dame. My research interests include human-inspired learning, computer vision, and biometrics. 
+                * I am a PhD student in computer science at the <a href="https://www.cse.nd.edu/" target="_blank">University of Notre Dame</a>. I am a member of the Notre Dame <a href="https://cvrl.nd.edu/" target="_blank">Computer Vision Research Lab</a>. My research interests include human-inspired learning, computer vision, and biometrics. 
 
-                <br>
+                <br><br>
 
-                Displayed is a generative artwork created by layering elementary cellular automata rules, generated using <a href="https://p5js.org/" target="_blank">p5.js</a>.
+                
+
+                Displayed is a generative artwork created by layering elementary cellular automata rules, generated using <a href="https://p5js.org/" target="_blank">p5.js</a>. 
+
+                <button id="reset-button" style="font-family: RobotoMono; border-color: #22092C; cursor: pointer;">Click here to regenerate.</button>
             </h1>
 
             <!-- <h1 style="color: #22092C; margin-top: 0;">
