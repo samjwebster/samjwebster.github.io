@@ -3,6 +3,11 @@ function getWindowDims() {
 }
 
 function windowResized() {
+    // Prevent resize handling on mobile devices
+    if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        return;
+    }
+
     let newDims = getWindowDims();
     diffX = prevDims[0] - newDims[0];
     diffY = prevDims[1] - newDims[1];
