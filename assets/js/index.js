@@ -26,9 +26,14 @@ function setup() {
     let reset_button = document.getElementById("reset-button");
     reset_button.onclick = restart_composition;
 
+    noLoop();
+
 }
 
 function restart_composition() {
+    if(c) c.dispose();
+
+    clear();
     p = getPalette();
     p.shuffle();
     c = new Composition();
@@ -38,16 +43,6 @@ function restart_composition() {
 let rounds = 0;
 let interval = 1000;
 let time_since_last = 0;
-function draw() {
-    time_since_last += deltaTime;
-    if(time_since_last > interval) {
-        time_since_last = 0;
-        rounds++;
-        c.update();
-        c.render();
-    }
-
-}
 
 class Composition {
     constructor() {
@@ -135,25 +130,61 @@ class Composition {
         // move the canvas down by the height of one cell
         // then transition it back up to 0 over the interval time
         // Function to trigger the slide animation
+        // this.triggerSlide = () => {
+        //     let slideAmount = this.data.cellH;
+        //     let slideTime = interval;
+        //     canvas_container.style.transition = "";
+        //     canvas_container.style.transform = `translateY(${slideAmount}px)`;
+
+        //     setTimeout(() => {
+        //     canvas_container.style.transition = `transform ${slideTime}ms linear`;
+        //     canvas_container.style.transform = `translateY(0px)`;
+        //     }, 20);
+
+        //     setTimeout(() => {
+        //     canvas_container.style.transition = "";
+        //     canvas_container.style.transform = "";
+        //     }, slideTime + 30);
+        // };
+
         this.triggerSlide = () => {
             let slideAmount = this.data.cellH;
             let slideTime = interval;
+
+            // reset and apply slide
             canvas_container.style.transition = "";
             canvas_container.style.transform = `translateY(${slideAmount}px)`;
 
-            setTimeout(() => {
-            canvas_container.style.transition = `transform ${slideTime}ms linear`;
-            canvas_container.style.transform = `translateY(0px)`;
-            }, 20);
+            requestAnimationFrame(() => {
+                canvas_container.style.transition = `transform ${slideTime}ms linear`;
+                canvas_container.style.transform = `translateY(0px)`;
+            });
 
-            setTimeout(() => {
-            canvas_container.style.transition = "";
-            canvas_container.style.transform = "";
-            }, slideTime + 30);
+            // Clean up old listener if it exists
+            if (this._onEnd) {
+                canvas_container.removeEventListener("transitionend", this._onEnd);
+            }
+
+            this._onEnd = () => {
+                canvas_container.removeEventListener("transitionend", this._onEnd);
+                requestAnimationFrame(() => {
+                    this.update();
+                    this.render();
+                });
+            };
+
+            canvas_container.addEventListener("transitionend", this._onEnd);
         };
 
         // Trigger the slide animation initially
         this.triggerSlide();
+
+        // render everythign
+        for(let j = 0; j < this.grid.length; j++) {
+            for(let i = 0; i < this.grid[0].length; i++) {
+                this.grid[j][i].render();
+            }
+        }
     }
 
     update() {
@@ -181,22 +212,33 @@ class Composition {
             this.grid[j][this.data.countY - 1].updateState(newState);
             this.grid[j][this.data.countY - 1].n = cell.n;
             this.grid[j][this.data.countY - 1].nCol = cell.nCol;
-        }
 
-        // get new n values for the bottom row
-        for(let j = 0; j < this.data.countX; j++) {
-            let x = this.grid[j][this.data.countY - 1].x;
-            let y = this.grid[j][this.data.countY - 1].y + this.data.cellH * (this.num_updates - 1);
-            this.grid[j][this.data.countY - 1].n = this.data.nFunc(x, y);
-            this.grid[j][this.data.countY - 1].nCol = this.automata[floor(this.grid[j][this.data.countY - 1].n * this.automata.length)].col;
+            // get new n values
+            let x = this.grid[j][i+1].x;
+            let y = this.grid[j][i+1].y + this.data.cellH * (this.num_updates - 1);
+            this.grid[j][i+1].n = this.data.nFunc(x, y);
+            this.grid[j][i+1].nCol = this.automata[floor(this.grid[j][i+1].n * this.automata.length)].col;
+        }
+    }
+    render() {
+        // shift the existing cells up
+        copy(
+            0, this.data.cellH,
+            width, height - this.data.cellH,
+            0, 0,
+            width, height - this.data.cellH
+        );
+
+        // render the new row at the bottom
+        for(let j = 0; j < this.grid.length; j++) {
+            this.grid[j][this.grid[0].length - 1].render();
         }
     }
 
-    render() {
-        for(let i = 0; i < this.grid[0].length; i++) {
-            for(let j = 0; j < this.grid.length; j++) {
-                this.grid[j][i].render();
-            }
+    dispose() {
+        if (this._onEnd) {
+            canvas_container.removeEventListener("transitionend", this._onEnd);
+            this._onEnd = null;
         }
     }
 }

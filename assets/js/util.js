@@ -11,8 +11,7 @@ function windowResized() {
 
     prevDims = newDims;
 
-    c = new Composition();
-    c.render();
+    restart_composition();
 }
 
 // Palette class
@@ -238,14 +237,6 @@ function basicBank() {
             color("#ba181b"),
             color("#e5383b"),
             color("#b1a7a6"),
-        ]),
-        new Palette("frost", 1, [
-            color("#edf2fb"),
-            color("#d7e3fc"),
-            color("#ccdbfd"),
-            color("#c1d3fe"),
-            color("#b6ccfe"),
-            color("#abc4ff"),
         ]),
     ];
 }
