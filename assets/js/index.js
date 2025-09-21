@@ -26,6 +26,19 @@ function setup() {
     let reset_button = document.getElementById("reset-button");
     reset_button.onclick = restart_composition;
 
+    // link the collapse button to show/hide #content
+    let collapse_button = document.getElementById("collapse-button");
+    let content = document.getElementById("content");
+    collapse_button.onclick = () => {
+        if(content.style.display === "none") {
+            content.style.display = "block";
+            collapse_button.innerText = "Hide Info";
+        } else {
+            content.style.display = "none";
+            collapse_button.innerText = "Show Info";
+        }
+    };
+
     noLoop();
 
 }

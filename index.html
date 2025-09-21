@@ -41,9 +41,16 @@
 
                 Displayed is generative artwork created by layering elementary cellular automata rules, generated using <a href="https://p5js.org/" target="_blank">p5.js</a>. 
 
-                <button id="reset-button" style="font-family: RobotoMono; border-color: #22092C; cursor: pointer;">Click here to regenerate.</button>
+                
             </h1>
         </div>
+
+        <div id="control-buttons" style="width: 100%; display:flex; justify-content: right;">
+            <button id="reset-button" style="font-family: RobotoMono; border-color: #22092C; cursor: pointer; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px); margin: 0.25em;">Regenerate</button>
+            <button id="collapse-button" style="font-family: RobotoMono; border-color: #22092C; cursor: pointer; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px); margin: 0.25em;">Hide Info</button>
+        </div>
+
+
 
         <script>
             // linking for header elements
