@@ -13,6 +13,8 @@ function setup() {
 
     eggshell = color("#f0ead6");
 
+    noSmooth();
+
     p = getPalette();
     p.shuffle();
 
@@ -29,7 +31,7 @@ function setup() {
     // link the collapse button to show/hide #content
     let collapse_button = document.getElementById("collapse-button");
     let content = document.getElementById("content");
-    collapse_button.onclick = () => {
+    let collapse = () => {
         if(content.style.display === "none") {
             content.style.display = "block";
             collapse_button.innerText = "Hide Info";
@@ -38,6 +40,8 @@ function setup() {
             collapse_button.innerText = "Show Info";
         }
     };
+    collapse_button.onclick = collapse;
+    collapse();
 
     noLoop();
 
@@ -138,27 +142,6 @@ class Composition {
                 this.grid[j][i+1].updateState(newState);
             }
         }
-
-        // Setup CSS canvas sliding
-        // move the canvas down by the height of one cell
-        // then transition it back up to 0 over the interval time
-        // Function to trigger the slide animation
-        // this.triggerSlide = () => {
-        //     let slideAmount = this.data.cellH;
-        //     let slideTime = interval;
-        //     canvas_container.style.transition = "";
-        //     canvas_container.style.transform = `translateY(${slideAmount}px)`;
-
-        //     setTimeout(() => {
-        //     canvas_container.style.transition = `transform ${slideTime}ms linear`;
-        //     canvas_container.style.transform = `translateY(0px)`;
-        //     }, 20);
-
-        //     setTimeout(() => {
-        //     canvas_container.style.transition = "";
-        //     canvas_container.style.transform = "";
-        //     }, slideTime + 30);
-        // };
 
         this.triggerSlide = () => {
             let slideAmount = this.data.cellH;
