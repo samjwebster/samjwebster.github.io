@@ -9,6 +9,15 @@
     --red: #AA4A44;
 }
 
+html {
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 input {
     font-family: RobotoMono;
 }
@@ -33,7 +42,7 @@ body, html {
 
 h1 {
     font-weight: 250;
-    font-size: 102.3%;
+    font-size: 90.0%;
 }
 
 h2 {
