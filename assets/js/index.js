@@ -32,23 +32,40 @@ function setup() {
     let collapse_button = document.getElementById("collapse-button");
     let content = document.getElementById("content");
     let collapse = () => {
-        if(content.style.display === "none") {
+        if (content.style.display === "none") {
             content.style.display = "block";
-            collapse_button.innerText = "Hide Info";
+            collapse_button.innerText = "↑ Hide Info";
         } else {
             content.style.display = "none";
-            collapse_button.innerText = "Show Info";
+            collapse_button.innerText = "↓ Show Info";
         }
     };
     collapse_button.onclick = collapse;
-    collapse();
+
+    // link the increase and decrease speed buttons
+    let increase_speed_button = document.getElementById("increase-speed-button");
+    increase_speed_button.onclick = () => change_speed(1);
+    let decrease_speed_button = document.getElementById("decrease-speed-button");
+    decrease_speed_button.onclick = () => change_speed(-1);
 
     noLoop();
 
 }
 
+let interval = 200;
+function change_speed(direction) {
+    if (direction > 0) {
+        interval -= 25;
+        if (interval < 25) interval = 25;
+    } else {
+        interval += 25;
+        if (interval > 1000) interval = 1000;
+    }
+
+}
+
 function restart_composition() {
-    if(c) c.dispose();
+    if (c) c.dispose();
 
     clear();
     p = getPalette();
@@ -58,8 +75,7 @@ function restart_composition() {
 }
 
 let rounds = 0;
-let interval = 1000;
-let time_since_last = 0;
+
 
 class Composition {
     constructor() {
@@ -72,17 +88,17 @@ class Composition {
 
         this.data = {};
 
-        this.initialize();        
+        this.initialize();
     }
 
     initialize() {
         this.automata = [];
         let nAutomata = 5;
-        for(let i = 0; i < nAutomata; i++) {
-            this.automata[i] = new ElementaryAutomata(round(random()*255));
+        for (let i = 0; i < nAutomata; i++) {
+            this.automata[i] = new ElementaryAutomata(round(random() * 255));
         }
 
-        let desiredCountX = width/5;
+        let desiredCountX = width / 5;
         let requiredWidth = floor(width / desiredCountX);
         this.data.desiredWidth = requiredWidth;
         // this.data.desiredWidth = 0.01 * width;
@@ -97,49 +113,49 @@ class Composition {
 
         this.data.nDim = min(width, height);
         this.data.nDetail = 8;
-        this.data.offX = random()*999999;
-        this.data.offY = random()*999999;
+        this.data.offX = random() * 999999;
+        this.data.offY = random() * 999999;
 
-        this.data.nFunc = (x, y) => map(noise(this.data.offX + ((x/this.data.nDim) * this.data.nDetail), this.data.offY + ((y/this.data.nDim) * this.data.nDetail)), 0.2, 0.8, 0, 0.9999, true);
+        this.data.nFunc = (x, y) => map(noise(this.data.offX + ((x / this.data.nDim) * this.data.nDetail), this.data.offY + ((y / this.data.nDim) * this.data.nDetail)), 0.2, 0.8, 0, 0.9999, true);
 
-        for(let i = 0; i < this.data.countX; i++) {
+        for (let i = 0; i < this.data.countX; i++) {
             this.grid.push([]);
-            let ti = i/this.data.countX;
+            let ti = i / this.data.countX;
             let x = lerp(0, width, ti);
-            for(let j = 0; j < this.data.countY; j++) {
-                let tj = j/this.data.countY;
+            for (let j = 0; j < this.data.countY; j++) {
+                let tj = j / this.data.countY;
                 let y = lerp(0, height, tj);
 
                 let n = this.data.nFunc(x, y);
 
                 this.grid[i].push(new Cell(
-                    x, y, this.data.cellW, this.data.cellH, 
-                    n, 
-                    lerpColor(this.topLeft, this.topRight, ti), 
-                    lerpColor(this.bottomLeft, this.bottomRight, ti), 
+                    x, y, this.data.cellW, this.data.cellH,
+                    n,
+                    lerpColor(this.topLeft, this.topRight, ti),
+                    lerpColor(this.bottomLeft, this.bottomRight, ti),
                     this.automata[floor(n * this.automata.length)].col
                 ));
             }
         }
 
         // Set starters
-        let nstarters = round(random(0.25*this.data.countX, 0.50*this.data.countX));
+        let nstarters = round(random(0.25 * this.data.countX, 0.50 * this.data.countX));
         let startarr = [];
-        for(let i = 0; i < this.data.countX; i++) startarr.push(i);
+        for (let i = 0; i < this.data.countX; i++) startarr.push(i);
         startarr = shuffleArray(startarr);
 
-        for(let i = 0; i < nstarters; i++) {
+        for (let i = 0; i < nstarters; i++) {
             this.grid[startarr[i]][0].updateState(1);
         }
 
-        for(let i = 0; i < this.data.countY - 1; i++) {
-            for(let j = 0; j < this.data.countX; j++) {
+        for (let i = 0; i < this.data.countY - 1; i++) {
+            for (let j = 0; j < this.data.countX; j++) {
                 let cell = this.grid[j][i];
                 let left = this.grid[(j - 1 + this.data.countX) % this.data.countX][i];
                 let right = this.grid[(j + 1) % this.data.countX][i];
 
                 let newState = this.automata[floor(cell.n * this.automata.length)].calculateState(left.state, cell.state, right.state);
-                this.grid[j][i+1].updateState(newState);
+                this.grid[j][i + 1].updateState(newState);
             }
         }
 
@@ -176,8 +192,8 @@ class Composition {
         this.triggerSlide();
 
         // render everythign
-        for(let j = 0; j < this.grid.length; j++) {
-            for(let i = 0; i < this.grid[0].length; i++) {
+        for (let j = 0; j < this.grid.length; j++) {
+            for (let i = 0; i < this.grid[0].length; i++) {
                 this.grid[j][i].render();
             }
         }
@@ -188,9 +204,9 @@ class Composition {
         this.triggerSlide();
 
         // shift the cells up and add a new row at the bottom
-        for(let j = 0; j < this.data.countX; j++) {
-            for(let i = 0; i < this.data.countY - 1; i++) {
-                let cellAbove = this.grid[j][i+1];
+        for (let j = 0; j < this.data.countX; j++) {
+            for (let i = 0; i < this.data.countY - 1; i++) {
+                let cellAbove = this.grid[j][i + 1];
                 this.grid[j][i].updateState(cellAbove.state);
                 this.grid[j][i].n = cellAbove.n;
                 this.grid[j][i].nCol = cellAbove.nCol;
@@ -199,7 +215,7 @@ class Composition {
 
         // use second to last row to update last row
         let i = this.data.countY - 2;
-        for(let j = 0; j < this.data.countX; j++) {
+        for (let j = 0; j < this.data.countX; j++) {
             let cell = this.grid[j][i];
             let left = this.grid[(j - 1 + this.data.countX) % this.data.countX][i];
             let right = this.grid[(j + 1) % this.data.countX][i];
@@ -210,10 +226,10 @@ class Composition {
             this.grid[j][this.data.countY - 1].nCol = cell.nCol;
 
             // get new n values
-            let x = this.grid[j][i+1].x;
-            let y = this.grid[j][i+1].y + this.data.cellH * (this.num_updates - 1);
-            this.grid[j][i+1].n = this.data.nFunc(x, y);
-            this.grid[j][i+1].nCol = this.automata[floor(this.grid[j][i+1].n * this.automata.length)].col;
+            let x = this.grid[j][i + 1].x;
+            let y = this.grid[j][i + 1].y + this.data.cellH * (this.num_updates - 1);
+            this.grid[j][i + 1].n = this.data.nFunc(x, y);
+            this.grid[j][i + 1].nCol = this.automata[floor(this.grid[j][i + 1].n * this.automata.length)].col;
         }
     }
     render() {
@@ -226,7 +242,7 @@ class Composition {
         );
 
         // render the new row at the bottom
-        for(let j = 0; j < this.grid.length; j++) {
+        for (let j = 0; j < this.grid.length; j++) {
             this.grid[j][this.grid[0].length - 1].render();
         }
     }
@@ -280,6 +296,6 @@ class Cell {
             this.nCol,
             this.n * 0.25
         ));
-        rect(this.x + this.w/2, this.y + this.h/2, this.w * 1.05, this.h * 1.05);
+        rect(this.x + this.w / 2, this.y + this.h / 2, this.w * 1.05, this.h * 1.05);
     }
 }

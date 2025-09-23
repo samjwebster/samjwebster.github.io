@@ -1,5 +1,6 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,22 @@
     <link rel="stylesheet" href="../../assets/stylesheets/genart.css">
     <title>airflow - art - sam webster</title>
 </head>
+
 <body>
     <div id="site_container">
         <div id="header">
             <div id="top-row" style="padding-bottom: 0; margin-bottom: 0;">
                 <div style="margin: 0; padding: 0; width: 25%;">
                     <h1 id="tentwentythree" style="color: #22092C; margin-bottom: 0; padding-bottom: 0;">
-                        <b class="link" style="margin: 0;" id="home-link">sam webster</b>
+                        <b class="link" style="margin: 0; font-weight: bold;" id="home-link">sam webster</b>
                     </h1>
                 </div>
-                <div style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: space-between; width: 75%">
+                <div
+                    style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: right; width: 75%">
                     <h1 class="link" id="research-link">research</h1>
+                    <h1 style="opacity: 20%;">|</h1>
                     <h1 class="link link-selected" id="genart-link">generative art</h1>
+                    <h1 style="opacity: 20%;">|</h1>
                     <h1 class="link" id="about-link">about</h1>
                 </div>
             </div>
@@ -28,18 +33,21 @@
                 </h1>
             </div>
         </div>
-    
 
-        <div id="content-container" style="padding: 0; margin: 0; width: 100vw; display: flex; flex-direction: column; align-items: center;">
 
-            <button id="back-button" type="button" class="collapsible" style="align-self: flex-start; margin: 1em;">back</button>
+        <div id="content-container"
+            style="padding: 0; margin: 0; width: 100vw; display: flex; flex-direction: column; align-items: center;">
+
+            <button id="back-button" type="button" class="collapsible"
+                style="align-self: flex-start; margin: 1em;">back</button>
 
             <h1 style="text-align: center;">
                 <b>Airflow</b>
             </h1>
-            
 
-            <div id="canvas-container" style="max-height: 60vh; display: flex; justify-content: center; align-items: center; padding: 1em; background-color: rgba(0,0,0,.25);">
+
+            <div id="canvas-container"
+                style="max-height: 60vh; display: flex; justify-content: center; align-items: center; padding: 1em; background-color: rgba(0,0,0,.25);">
                 <style>
                     #canvas-container canvas {
                         max-width: 60vh;
@@ -51,7 +59,8 @@
                 </style>
             </div>
 
-            <button id="redraw-button" type="button" class="collapsible" style="margin: 1em;">generate new &#8635;</button>
+            <button id="redraw-button" type="button" class="collapsible" style="margin: 1em;">generate new
+                &#8635;</button>
 
         </div>
 
@@ -59,19 +68,19 @@
 
     <script>
         // linking for header elements
-        document.getElementById("home-link").addEventListener('click', function() {
+        document.getElementById("home-link").addEventListener('click', function () {
             window.location.href = '../../../index.html';
         });
-        document.getElementById("research-link").addEventListener('click', function() {
+        document.getElementById("research-link").addEventListener('click', function () {
             window.location.href = '../research.html';
         });
-        document.getElementById("about-link").addEventListener('click', function() {
+        document.getElementById("about-link").addEventListener('click', function () {
             window.location.href = '../about.html';
         });
-        document.getElementById("genart-link").addEventListener('click', function() {
+        document.getElementById("genart-link").addEventListener('click', function () {
             window.location.href = '../genart.html';
         });
-        document.getElementById("back-button").addEventListener('click', function() {
+        document.getElementById("back-button").addEventListener('click', function () {
             window.location.href = '../genart.html';
         });
     </script>
@@ -83,7 +92,8 @@
     <script src="../../assets/js/genart/airflow/layers.js"></script>
     <script src="../../assets/js/genart/airflow/noise.js"></script>
     <script src="../../assets/js/genart/airflow/sketch.js"></script>
-    
+
 
 </body>
+
 </html>

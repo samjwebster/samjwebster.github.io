@@ -1,6 +1,6 @@
 @font-face {
-    font-family: RobotoMono;
-    src: url("./RobotoMono.ttf");
+    font-family: JetBrainsMono;
+    src: url("./JetBrainsMono.ttf");
 }
 
 :root {
@@ -10,7 +10,7 @@
 }
 
 html {
-    font-family: RobotoMono;
+    font-family: JetBrainsMono;
 }
 
 body {

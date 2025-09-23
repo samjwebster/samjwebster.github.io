@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <script src="assets/js/index.js"></script>
     <script src="assets/js/util.js"></script>
 </head>
+
 <body>
     <div id="canvas_container" style="position: absolute; z-index: -100; overflow: hidden;"></div>
     <div id="site_container">
@@ -17,10 +19,11 @@
             <div id="top-row" style="padding-bottom: 0; margin-bottom: 0; width: 100%;">
                 <div style="margin: 0; padding: 0; max-width: 25%;">
                     <h1 id="tentwentythree" style="color: #22092C; margin-bottom: 0; padding-bottom: 0;">
-                        <b class="link" style="margin: 0;" id="home-link">sam webster</b>
+                        <b class="link" style="margin: 0; font-weight: bold;" id="home-link">sam webster</b>
                     </h1>
                 </div>
-                <div style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: right; min-width: 75%">
+                <div
+                    style="margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: right; min-width: 75%">
                     <h1 class="link" id="research-link">research</h1>
                     <h1 style="opacity: 20%;">|</h1>
                     <h1 class="link" id="genart-link">generative art</h1>
@@ -35,40 +38,57 @@
             </div>
         </div>
 
-        <div id="content" style="padding: 0.5em 2em; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px);">
+        <div id="content"
+            style="padding: 0.5em 2em; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px);">
             <h1 style="color: #22092C; margin-top: 0;">
-                I am a PhD student in computer science at the <a href="https://www.cse.nd.edu/" target="_blank">University of Notre Dame</a> and a member of the <a href="https://cvrl.nd.edu/" target="_blank">ND Computer Vision Research Lab</a>. My research interests include human-inspired learning, computer vision, and biometrics. 
+                I am a PhD student in computer science at the <a href="https://www.cse.nd.edu/"
+                    target="_blank">University of Notre Dame</a> and a member of the <a href="https://cvrl.nd.edu/"
+                    target="_blank">ND Computer Vision Research Lab</a>. My research interests include human-inspired
+                learning, computer vision, and biometrics.
 
                 <br><br>
 
-                Displayed is generative artwork created by layering elementary cellular automata rules, generated using <a href="https://p5js.org/" target="_blank">p5.js</a>. 
+                Displayed is generative artwork created by layering elementary cellular automata rules, generated using
+                <a href="https://p5js.org/" target="_blank">p5.js</a>.
 
-                
+
             </h1>
         </div>
 
         <div id="control-buttons" style="width: 100%; display:flex; justify-content: right;">
-            <button id="reset-button" style="font-family: RobotoMono; border-color: #22092C; cursor: pointer; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px); margin: 0.25em;">Regenerate</button>
-            <button id="collapse-button" style="font-family: RobotoMono; border-color: #22092C; cursor: pointer; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px); margin: 0.25em;">Hide Info</button>
+            <button id="reset-button"
+                style="font-family: JetBrainsMono; border-color: #22092C; cursor: pointer; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px); margin: 0.25em;">&#8635;
+                Regenerate</button>
+            <button id="increase-speed-button"
+                style="font-family: JetBrainsMono; border-color: #22092C; cursor: pointer; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px); margin: 0.25em;">+
+                Speed</button>
+            <button id="decrease-speed-button"
+                style="font-family: JetBrainsMono; border-color: #22092C; cursor: pointer; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px); margin: 0.25em;">-
+                Speed</button>
+            <button id="collapse-button"
+                style="font-family: JetBrainsMono; border-color: #22092C; cursor: pointer; background-color: rgba(240, 234, 214, 0.75); backdrop-filter: blur(2px); margin: 0.25em;">↑
+                Hide
+                Info</button>
         </div>
 
 
 
         <script>
             // linking for header elements
-            document.getElementById("home-link").addEventListener('click', function() {
+            document.getElementById("home-link").addEventListener('click', function () {
                 window.location.href = './index.html';
             });
-            document.getElementById("research-link").addEventListener('click', function() {
+            document.getElementById("research-link").addEventListener('click', function () {
                 window.location.href = './pages/research.html';
             });
-            document.getElementById("about-link").addEventListener('click', function() {
+            document.getElementById("about-link").addEventListener('click', function () {
                 window.location.href = './pages/about.html';
             });
-            document.getElementById("genart-link").addEventListener('click', function() {
+            document.getElementById("genart-link").addEventListener('click', function () {
                 window.location.href = './pages/genart.html';
             });
         </script>
     </div>
 </body>
+
 </html>

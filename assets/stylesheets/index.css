@@ -1,6 +1,6 @@
 @font-face {
-    font-family: RobotoMono;
-    src: url("./RobotoMono.ttf");
+    font-family: JetBrainsMono;
+    src: url("./JetBrainsMono.ttf");
 }
 
 :root {
@@ -10,7 +10,7 @@
 }
 
 html {
-    -ms-overflow-style: none; 
+    -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
@@ -19,7 +19,7 @@ html {
 }
 
 input {
-    font-family: RobotoMono;
+    font-family: JetBrainsMono;
 }
 
 button {
@@ -30,14 +30,13 @@ body {
     background-color: var(--eggshell);
 }
 
-body, html {
-    font-family: RobotoMono;
+body,
+html {
+    font-family: JetBrainsMono;
     margin: 0;
     display: grid;
-    grid-template-columns: 1; /* Two equal columns */
-    grid-template-rows: 1; /* 100% viewport height */
-    /* overflow: hidden; */
-    /* background-color: var(--eggshell); */
+    grid-template-columns: 1;
+    grid-template-rows: 1;
 }
 
 h1 {
@@ -55,8 +54,10 @@ p {
     font-size: 90%;
 }
 
-#canvas_container, #site_container {
-    grid-column: 1; /* Occupy both columns */
+#canvas_container,
+#site_container {
+    grid-column: 1;
+    /* Occupy both columns */
     grid-row: 1;
     width: 100%;
     height: 100%;
@@ -64,13 +65,13 @@ p {
 
 #backdrop {
     z-index: 0;
-    position:absolute;
-    top:0;
-    right:0;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     image-rendering: pixelated;
 }
 
@@ -120,12 +121,12 @@ p {
 
 .link:hover {
     cursor: pointer;
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
 /* Style the button that is used to open and close the collapsible content */
 .collapsible {
-    font-family: RobotoMono;
+    font-family: JetBrainsMono;
     background-color: rgba(0, 0, 0, 0.1);
     color: #444;
     cursor: pointer;
@@ -137,7 +138,8 @@ p {
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.collapsible-active, .collapsible:hover {
+.collapsible-active,
+.collapsible:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
