@@ -3,6 +3,11 @@
     src: url("./JetBrainsMono.ttf");
 }
 
+@font-face {
+    font-family: JetBrainsMonoBold;
+    src: url("./JetBrainsMonoBold.ttf");
+}
+
 :root {
     --eggshell: #f0ead6;
     --dark: #22092C;
@@ -12,6 +17,10 @@
 html {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+b {
+    font-family: JetBrainsMonoBold;
 }
 
 ::-webkit-scrollbar {
@@ -105,6 +114,7 @@ p {
 }
 
 #tentwentythree {
+    font-family: JetBrainsMonoBold;
     justify-self: left;
 }
 

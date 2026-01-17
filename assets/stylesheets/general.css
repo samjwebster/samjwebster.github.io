@@ -3,6 +3,11 @@
     src: url("./JetBrainsMono.ttf");
 }
 
+@font-face {
+    font-family: JetBrainsMonoBold;
+    src: url("./JetBrainsMonoBold.ttf");
+}
+
 :root {
     --eggshell: #f0ead6;
     --dark: #22092C;
@@ -11,6 +16,10 @@
 
 html {
     font-family: JetBrainsMono;
+}
+
+b {
+    font-family: JetBrainsMonoBold;
 }
 
 body {
