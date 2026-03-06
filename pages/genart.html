@@ -39,15 +39,17 @@
             style="padding: 0; margin: 0; width: 100vw; display: flex; flex-direction: column; align-items: center;">
 
             <div id="brief"
-                style="padding: 1em; text-align: center; align-items: center; display: flex; flex-direction: column; width: 80%;">
+                style="padding: 1em; text-align: center; align-items: center; display: flex; flex-direction: column; width: 90%;">
                 <!-- <h1>This page contains a selection of my generative art projects.</h1> -->
-                <button type="button" class="collapsible">FAQ ▶</button>
+                Click any card to view the artwork! Some works take longer to generate than others.
+                <button type="button" class="collapsible" style="margin-top: 0.5em;">FAQ ▶</button>
                 <div class="collapsible-content" style="text-align: left; width: 80%;">
+                    I create generative art under the identity <a href="https://x.com/tntwntythr" target="_blank" rel="noopener noreferrer">Ten Twentythree</i></a> (after my birthday, October 23). I discovered it in the summer of 2022.
                     <p>* <u>What is generative art?</u></p>
-                    <p><b>In my words</b>, a generative artwork is <b>the algorithm</b> that creates some space of artistic output. As a generative artist, my role is to write code that controls this space while still
+                    <p><b>In my words</b>, generative artwork is <b>an algorithm</b> that creates some space of artistic output. As a generative artist, my role is to write code that controls this space while still
                         producing diverse and interesting works.</p>
                     <p>* <u>Are these AI/ChatGPT/Midjourney/Sora/StableDiffusion generated?</u></p>
-                    <p><b>No</b>, it's all hand coded using p5.js, a JavaScript library for creative coding.</p>
+                    <p><b>No</b>, it's all hand-coded using p5.js, a JavaScript library for creative coding.</p>
                 </div>
 
             </div>
@@ -56,73 +58,73 @@
                 style="width: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 0; margin: 0;">
 
                 <div class="card" id="airflow-card">
-                    <b>Airflow</b>
+                    <b class="card-title">Airflow</b>
                     <img class="thumbnail" src="../assets/imgs/genart/flow-layers.jpeg" />
-                    <p>In Progress</p>
+                    <p>Work In Progress</p>
                 </div>
 
-                <div class="card">
-                    <b>Elementary Automata Layers</b>
+                <div class="card" id="elementary-automata-card">
+                    <b class="card-title">Elementary Automata Layers</b>
                     <img class="thumbnail" src="../assets/imgs/genart/gen25-day24.jpeg" />
                     <p>January 24, 2025 (Genuary25)</p>
                 </div>
 
-                <div class="card">
-                    <b>Brutalist Apartments</b>
+                <div class="card" id="brutalist-apartments-card">
+                    <b class="card-title">Brutalist Apartments</b>
                     <img class="thumbnail" src="../assets/imgs/genart/gen25-day23.jpeg" />
                     <p>January 23, 2025 (Genuary25)</p>
                 </div>
 
-                <div class="card">
-                    <b>Wind Sketches</b>
+                <div class="card" id="wind-sketches-card">
+                    <b class="card-title">Wind Sketches</b>
                     <img class="thumbnail" src="../assets/imgs/genart/gen25-day18.png" />
                     <p>January 18, 2025 (Genuary25)</p>
                 </div>
 
-                <div class="card">
-                    <b>Grassy Fields</b>
+                <div class="card" id="grassy-fields-card">
+                    <b class="card-title">Grassy Fields</b>
                     <img class="thumbnail" src="../assets/imgs/genart/gen25-day13.jpeg" />
                     <p>January 13, 2025 (Genuary25)</p>
                 </div>
 
-                <div class="card">
-                    <b>Hydraulic Erosion</b>
+                <div class="card" id="hydraulic-erosion-card">
+                    <b class="card-title">Hydraulic Erosion</b>
                     <img class="thumbnail" src="../assets/imgs/genart/gen25-day11.jpeg" />
                     <p>January 11, 2025 (Genuary25)</p>
                 </div>
 
-                <div class="card">
-                    <b>Isometric Hedge Parks</b>
+                <div class="card" id="isometric-hedge-parks-card">
+                    <b class="card-title">Isometric Hedge Parks</b>
                     <img class="thumbnail" src="../assets/imgs/genart/gen25-day5.jpeg" />
                     <p>January 5, 2025 (Genuary25)</p>
                 </div>
 
-                <div class="card">
-                    <b>Black on Black</b>
+                <div class="card" id="black-on-black-card">
+                    <b class="card-title">Black on Black</b>
                     <img class="thumbnail" src="../assets/imgs/genart/gen25-day4.jpeg" />
                     <p>January 4, 2025 (Genuary25)</p>
                 </div>
 
-                <div class="card">
-                    <b>FXmas Trees</b>
+                <div class="card" id="fxmas-trees-card">
+                    <b class="card-title">FXmas Trees</b>
                     <img class="thumbnail" src="../assets/imgs/genart/fxmas-trees.png" />
                     <p>December, 2024</p>
                 </div>
 
-                <div class="card">
-                    <b>Paintbrush Texture</b>
+                <div class="card" id="paintbrush-texture-card">
+                    <b class="card-title">Paintbrush Texture</b>
                     <img class="thumbnail" src="../assets/imgs/genart/paintbrush-texture.png" />
                     <p>March, 2024</p>
                 </div>
 
-                <div class="card">
-                    <b>Strata</b>
+                <div class="card" id="strata-card">
+                    <b class="card-title">Strata</b>
                     <img class="thumbnail" src="../assets/imgs/genart/strata.png" />
                     <p>February, 2024</p>
                 </div>
 
-                <div class="card">
-                    <b>Paper Cutouts</b>
+                <div class="card" id="cutouts-card">
+                    <b class="card-title">Paper Cutouts</b>
                     <img class="thumbnail" src="../assets/imgs/genart/cutouts.jpg" />
                     <p>February, 2023</p>
                 </div>
@@ -152,6 +154,39 @@
         // linking for cards
         document.getElementById("airflow-card").addEventListener('click', function () {
             window.location.href = './genart/airflow.html';
+        });
+        document.getElementById("elementary-automata-card").addEventListener('click', function () {
+            window.location.href = '../index.html';
+        });
+        document.getElementById("brutalist-apartments-card").addEventListener('click', function () {
+            window.location.href = './genart/brutalist_apts.html';
+        });
+        document.getElementById("wind-sketches-card").addEventListener('click', function () {
+            window.location.href = './genart/wind_sketches.html';
+        });
+        document.getElementById("grassy-fields-card").addEventListener('click', function () {
+            window.location.href = './genart/grassy_fields.html';
+        });
+        document.getElementById("hydraulic-erosion-card").addEventListener('click', function () {
+            window.location.href = './genart/hydraulic_erosion.html';
+        });
+        document.getElementById("isometric-hedge-parks-card").addEventListener('click', function () {
+            window.location.href = './genart/hedge_parks.html';
+        });
+        document.getElementById("black-on-black-card").addEventListener('click', function () {
+            window.location.href = './genart/black_on_black.html';
+        });
+        document.getElementById("fxmas-trees-card").addEventListener('click', function () {
+            window.open("https://www.fxhash.xyz/project/fxmas-trees", target="_blank");
+        });
+        // document.getElementById("paintbrush-texture-card").addEventListener('click', function () {
+        //     window.location.href = './genart/paintbrush_texture.html';
+        // });
+        document.getElementById("strata-card").addEventListener('click', function () {
+            window.open("https://www.fxhash.xyz/project/strata-3", target="_blank");
+        });
+        document.getElementById("cutouts-card").addEventListener('click', function () {
+            window.location.href = './genart/cutouts.html';
         });
 
     </script>

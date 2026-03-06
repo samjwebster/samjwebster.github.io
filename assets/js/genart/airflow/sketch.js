@@ -2,44 +2,18 @@
 let p, renderer;
 let lightDir,lightCol, darkCol;
 let borderSize;
+let dim;
 
 function setup() {
-    // createCanvas(500, 750)
-    // createCanvas(500, 500);
-    // createCanvas(1500, 500);
-    let cnv = createCanvas(1000, 1000);
-    cnv.parent('canvas-container');
-    // createCanvas(windowWidth, windowHeight);
+    let cnv = createCanvas(window.innerWidth, window.innerHeight);
+    cnv.parent("canvas_container");
 
-    document.getElementById("redraw-button").onclick = function() {
-        regenerate();
-    }
+    dim = min(width, height);
 
-    regenerate();
-
-    // frameRate(30);
-    // pixelDensity(2);
-
-    // // 30, 31
-    // // randomSeed(32);
+    let reset_button = document.getElementById("reset-button");
+    reset_button.onclick = regenerate;
     
-    // p = getPalette();
-    // p.desaturate(0.2);
-    // // p.makeGrayscale();
-
-    // lightDir = p5.Vector.fromAngle(random() * PI);
-
-    // // lightCol = lerpColor(p.r(), color(245), 0.9);
-    // // darkCol = lerpColor(p.r(), color(0), 0.90);
-
-    // lightCol = color(255);
-    // darkCol = color(0);
-
-
-    // borderSize = random(0, width*0.10)
-
-    // let c = new Composition;
-    // renderer = c.render();
+    regenerate();
 }
 
 function regenerate() {
@@ -59,7 +33,7 @@ function regenerate() {
     darkCol = color(0);
 
 
-    borderSize = random(0, width*0.10)
+    borderSize = random([0, random(0.01, 0.05)*dim]);
 
     let c = new Composition;
     renderer = c.render();
@@ -75,23 +49,29 @@ function draw() {
 
 class Composition {
     constructor() {
-        this.layers = [];
-        let ct = random([3,4,5,6,7]);
-        ct = 5;
+        // this.layers = [];
+        // this.ct = round(random(5, 15));
+        // ct = 5;
         // let ct = 1;
 
-        for(let i = 0; i < ct; i++) {
-            let layer = new NoiseLayer();
-            this.layers.push(layer);
-        }
+        
     }
 
     *render() {
+        renderBackground();
+        yield;
+
+        this.layers = [];
+        let layer_ct = round(random(5, 15));
+
+        for(let i = 0; i < layer_ct; i++) {
+            let layer = new NoiseLayer();
+            this.layers.push(layer);
+        }
         
         let pts = [];
         for(let layer of this.layers) {
-            console.log(width/75);
-            let layer_pts = layer.getPts(width/75);
+            let layer_pts = layer.getPts(dim/35);
             pts = pts.concat(layer_pts);
         }
         pts.sort((a, b) => a.lightIntensity - b.lightIntensity || a.depth - b.depth);
@@ -100,11 +80,11 @@ class Composition {
         pts = pts.slice(0, floor(trim * pts.length));
 
         // For incremental rendering
-        let skipper = 100;
+        let skipper = 150;
         let ct = 0;
 
         pts.forEach(pt => {
-            if(random() > 0.98) {
+            if(random() > 0.96) {
                 pt.blendMode = BLEND;
             } else {
                 pt.blendMode = HARD_LIGHT;
@@ -114,15 +94,13 @@ class Composition {
         // let s = round((pts.length/skipper)/30) + 3;
         // saveGif("output", s);
 
-        renderBackground();
-
         push();
         noStroke();
 
         blendMode(HARD_LIGHT);
         let currentBlendMode = HARD_LIGHT;
 
-        console.log(pts.length)
+        // console.log(pts.length)
         let stopAt = random(0.80, 1) * pts.length
         let ptCount = 0;
         for(let pt of pts) {
@@ -139,7 +117,7 @@ class Composition {
             
             let angle = pt.dir * TAU;
 
-            let r = lerp(min(width,height)*0.01, min(width,height)*0.06, 1 - pt.depth);
+            let r = lerp(dim*0.01, dim*0.06, 1 - pt.depth);
             
             let posA = [
                 x, y
@@ -193,10 +171,10 @@ class Composition {
             );
 
             if(lightIntensity > 0.80) {
-                let amt = map(lightIntensity, 0.80, 1, 0, 0.20);
+                let amt = map(lightIntensity, 0.80, 1, 0, 0.30);
                 pt.col = lerpColor(pt.col, lightCol, amt);
             } else if (lightIntensity < 0.20) {
-                let amt =  map(1 - lightIntensity, 0.80, 1, 0, 0.20);
+                let amt =  map(1 - lightIntensity, 0.80, 1, 0, 0.30);
                 pt.col = lerpColor(pt.col, darkCol, amt);
             }
 
@@ -208,25 +186,22 @@ class Composition {
                 scribblyLine(posA, posB, pt.col);
             }
             
-            
-
             ct++;
             if(ct % skipper == 0) yield 1;
         }
         pop();
 
-        granulate(12);
+        granulate(10);
     }
 }
 
 class NoiseLayer {
     constructor() {
 
-        let detailMod = random(0.40, 1.5);
-        // detailMod= 0.75;
+        let detailMod = random(0.60, 1.75);
 
         this.n_dir = new Noise(
-            random(0.25, 0.50) * detailMod, 1,
+            detailMod, 1,
         );
 
         this.n_depth = new Noise(
@@ -258,7 +233,7 @@ class NoiseLayer {
 
     getPts(resolution) {
         let pts = [];
-        let ptsPerCell = 300;
+        let ptsPerCell = 400;
 
         let iCt = resolution;
         let iSize = width/resolution;
@@ -347,10 +322,20 @@ class NoiseLayer {
         // Random Thresholding
         let lowerThreshold = random(0.1, 0.9);
         let upperThreshold = random(0.1, 0.9);
+        if(lowerThreshold > upperThreshold) {
+            let tmp = lowerThreshold;
+            lowerThreshold = upperThreshold;
+            upperThreshold = tmp;
+        }
+
         let smooth = 0.025;
 
-        if(random() > 0.5) {
-            if(random() > 0.5) {
+        let inside = random([true, false]);
+        let doLower = random() > 0.25;
+        let doUpper = random() > 0.25;
+
+        if(doLower) {
+            if(inside) {
                 pts = pts.filter(pt => 
                     pt.depth > lowerThreshold || 
                     (pt.depth > (lowerThreshold - smooth) && random() > (lowerThreshold-pt.depth)/smooth)
@@ -360,8 +345,8 @@ class NoiseLayer {
             }
         }
 
-        if(random() > 0.5) {
-            if(random() > 0.5) {
+        if(doUpper) {
+            if(inside) {
                 pts = pts.filter(pt => pt.depth < upperThreshold || (pt.depth < (upperThreshold + smooth) && random() > (pt.depth-upperThreshold)/smooth));
             } else {
                 pts = pts.filter(pt => pt.depth > upperThreshold || (pt.depth > (upperThreshold - smooth) && random() > (pt.depth-upperThreshold)/smooth));
@@ -377,7 +362,6 @@ function renderBackground() {
     noStroke();
     let colA = p.r();
     let colB = p.r();
-    // gradFill([0, 0], [width, height], colA, colB);
 
     let gradEdges = shuffleArray([0, 1, 2, 3]);
 
@@ -432,8 +416,7 @@ function adjNoise(x=0,y=0,z=0) {
 }
 
 function scribblyBez(a, a1, a2, b, col) {
-    // let density = random(0.00025, 0.0075) * width;
-    let density = 0.00075 * width;
+    let density = 0.00075 * dim;
     let d = 0;
     d += dist(...a, ...a1);
     d += dist(...a1, ...a2);
@@ -445,7 +428,7 @@ function scribblyBez(a, a1, a2, b, col) {
         let x = bezierPoint(a[0], a1[0], a2[0], b[0], t);
         let y = bezierPoint(a[1], a1[1], a2[1], b[1], t);
 
-        let r = lerp(0.00075*width, 0.0025*width, random());
+        let r = lerp(0.00075*dim, 0.0025*dim, random());
         let p = nPoint([x, y], r * 3, 0.01); 
 
         let diff = getBorderDiff(p[0], p[1]);
@@ -487,8 +470,7 @@ function scribblyBez(a, a1, a2, b, col) {
 }
 
 function scribblyLine(a, b, col) {
-    // let density = random(0.00025, 0.0075) * width;
-    let density = 0.001 * width;
+    let density = 0.001 * dim;
     let count = floor(dist(...a, ...b)/density);
 
     for(let i = 0; i < count; i++) {
@@ -497,7 +479,7 @@ function scribblyLine(a, b, col) {
         let y = lerp(a[1], b[1], t);
 
         // let r = lerp(0.0005*width, 0.0015*width, random());
-        let r = lerp(0.00075*width, 0.0025*width, random());
+        let r = lerp(0.00075*dim, 0.0025*dim, random());
         let p = nPoint([x, y], r * 3, 0.01); 
 
         let diff = getBorderDiff(p[0], p[1]);

@@ -52,7 +52,7 @@ function setup() {
 
 }
 
-let interval = 200;
+let interval = 400;
 function change_speed(direction) {
     if (direction > 0) {
         interval -= 25;

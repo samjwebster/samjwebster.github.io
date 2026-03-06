@@ -3,10 +3,26 @@
     padding: 1em;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    cursor: pointer;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    /* cursor: pointer; */
     width: 90%;
     margin: 1em 0;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.card-data {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-data > * {
+    margin: 0.4em 0;
 }
 
 .card-title {
@@ -22,21 +38,21 @@
 }
 
 
-
+/* 
 .card:hover {
     background-color: rgba(0, 0, 0, 0.125);
 }
 
 .card:hover .card-title {
     text-decoration: underline;
-}
+} */
 
 .abstract {
     font-size: 0.5em;
 }
 
 .thumbnail {
-    /* object-fit: cover; */
+    object-fit: contain;
     max-height: 20vh;
     max-width: 90%;
     padding: 1em;
@@ -59,4 +75,51 @@
     text-align: center;
     font-size: 0.25em;
 
+}
+
+.paper_links {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.paper_link {
+    font-size: 0.75em;
+    padding: 0.25em 0.5em;
+    margin: 0 0.25em;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+}
+
+.paper_link.techrxiv {
+    background-color: #007ACC;
+}
+
+.paper_link.ieee {
+    background-color: #E0E0E0;
+    color: black;
+}
+
+.paper_link.github {
+    background-color: #333;
+}
+
+.paper_link.arxiv {
+    background-color: #B31B1B;
+}
+
+.paper_link.dataset {
+    background-color: #4CAF50;
+}
+
+.paper_link.other {
+    background-color: #18BC9C;
+}
+
+.paper_link:hover {
+    opacity: 0.8;
 }

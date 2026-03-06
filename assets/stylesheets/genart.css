@@ -8,6 +8,14 @@
     margin: 1em;
 }
 
+.card:hover {
+    background-color: rgba(0, 0, 0, 0.125);
+}
+
+.card:hover .card-title {
+    text-decoration: underline;
+}
+
 .thumbnail {
     /* object-fit: cover; */
     max-height: 20vh;

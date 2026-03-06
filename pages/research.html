@@ -42,9 +42,10 @@
 
         <div id="scrollspy-container" style="width: 100%; height: 100%; display: flex; flex-direction: row; justify-content: space-between; font-size: 1em;">
             <div id="scrollspy-navbar"
-                style="width: 25%; height: 100%; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; font-size: 0.10em; margin: 10px; background-color: rgba(0,0,0,0.1); padding: 10px;">
+                style="width: 25%; height: 100%; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; font-size: 0.10em; margin: 10px; background-color: rgba(0,0,0,0.1); padding: 10px; position: sticky; top: 0;">
 
                 <p class="scrollspy-category">Publications</p>
+                <p class="scrollspy-item">Psychophysically-Guided Training for Fingerprint Presentation Attack Detection</p>
                 <p class="scrollspy-item">Saliency-Guided Training for Fingerprint Presentation Attack Detection</p>
                 <p class="scrollspy-item">Iris Liveness Detection Competition (LivDet-Iris) - The 2025 Edition</p>
                 <p class="scrollspy-item">Grains of Saliency: Optimizing Saliency-based Training of Biometric Attack Detection Models</p>
@@ -55,42 +56,161 @@
             </div>
             
             <div id="scrollspy-list" style="width: 75%; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; margin: 10px; background-color: rgba(0,0,0,0.1); padding: 10px;">
-                <div class="card" id="fpad-card">
-                    <div class="card-title">Saliency-Guided Training for Fingerprint Presentation Attack Detection</div>
-                    <div class="card-authors">Samuel Webster, Adam Czajka</div>
-                    <div class="card-authors">Presented at the International Joint Conference on Biometrics (IJCB), Osaka, Japan, September 2025.</div>
-                    <img class="thumbnail" src="../assets/imgs/research/sgt_thumbnail.jpg"/>
-                    
-                    <p class="abstract">
-                        <span style="font-family: JetBrainsMonoBold;">Abstract: </span>
-                        Saliency-guided training, which directs model learning to important regions of images, has demonstrated generalization improvements across various biometric presentation attack detection (PAD) tasks. This paper presents its first application to fingerprint PAD. We conducted a 50-participant study to create a dataset of 800 human-annotated fingerprint perceptually-important maps, explored alongside algorithmically-generated "pseudosaliency," including minutiae-based, image quality-based, and autoencoder-based saliency maps. Evaluating on the 2021 Fingerprint Liveness Detection Competition testing set, we explore various configurations within five distinct training scenarios to assess the impact of saliency-guided training on accuracy and generalization. Our findings demonstrate the effectiveness of saliency-guided training for fingerprint PAD in both limited and large data contexts, and we present a configuration capable of earning the first place on the LivDet-2021 benchmark. Our results highlight saliency-guided training's promise for increased model generalization capabilities, its effectiveness when data is limited, and its potential to scale to larger datasets in fingerprint PAD. All collected saliency data and trained models are released with the paper to support reproducible research.</p>
-                </div>
+                
+                <div class="card" id="pgt-fpad-card">
+                    <div class="card-content">
+                        <div class="card-data">
+                            <div class="card-title">Psychophysically-Guided Training for Fingerprint Presentation Attack Detection</div>
+                            <div class="card-authors">Samuel Webster, Walter Scheirer, Adam Czajka</div>
+                            <div class="card-authors">Invited Journal Extension for IEEE Transactions on Biometrics, Behavior, and Identity Science, March 2026.</div>
 
-                <div class="card" id="livdet-iris-card">
-                    <div class="card-title">Iris Liveness Detection Competition (LivDet-Iris) - The 2025 Edition</div>
-                    <div class="card-authors">Mahsa Mitcheff, Afzal Hossain, Samuel Webster et al.</div>
-                    <div class="card-authors">Presented at the International Joint Conference on Biometrics (IJCB), Osaka, Japan, September 2025.</div>
+                            <div class="paper_links">
+                                <a href="https://www.techrxiv.org/users/1011473/articles/1371555-psychophysically-guided-training-for-fingerprint-presentation-attack-detection" target="_blank" class="paper_link techrxiv">TechRxiv</a>
 
-                    <div style="display: flex; flex-direction: row; padding: 0; margin: 0; align-items: center;">
-                        <p class="abstract">
-                        <span style="font-family: JetBrainsMonoBold;">Abstract: </span>
-                        LivDet-Iris 2025 is the sixth edition of the iris liveness detection competition. Held every two to three years, the competition aims to foster the development of robust algorithms capable of detecting a wide range of physically- and digitally-presented attacks in iris biometrics. The 2025 edition obtained the largest number of submissions in the history of the competition: ten algorithms from five institutions, and one commercial iris recognition system. LivDet-Iris 2025 also introduced new tasks compared to previous editions: (Task 1) a benchmark offered by an industry partner, (Task 2) morphed iris images, in which two different-identity samples were blended into one image, and (Task 3) evaluation of presentation attack detection robustness against advanced manufacturing techniques for textured contact lenses. This edition, for the first time in the series, offers a systematic testing of a commercial iris recognition system (software and hardware) using physical artifacts presented to the sensor. Dermalog-Iris team submitted algorithms that won all tasks, achieving the area under the ROC curve of 90.57%, 68.23% and 99.99% in tasks 1, 2, and 3, respectively. Additionally, we include results for baseline algorithms, based on modern deep convolutional neural networks and trained with all available public datasets of iris images representing bona fide samples and anomalies (physical attacks, eye diseases, post-mortem cases, and synthetically-generated iris images). Test samples created for tasks 2 and 3, and baseline models are made available to offer the state-of-the-art benchmark for iris liveness detection.</p>
-                        <img class="thumbnail" src="../assets/imgs/research/livdet-iris_thumbnail.jpg" style="width:50%;"/>
+                                <!-- <a href="" target="_blank" class="paper_link ieee">IEEExplore</a> -->
+                                <span class="paper_link ieee">IEEE Xplore (Pending)</span>
+
+                                <a href="https://github.com/CVRL/Psychophysically-Guided-Training-Fingerprint-PAD" target="_blank" class="paper_link github">GitHub</a>
+
+                                <!-- <a href="" target="_blank" class="paper_link dataset">Dataset</a> -->
+                                <span class="paper_link dataset">Dataset (Pending)</span>
+                            </div>
+                        </div>
+                        <img class="thumbnail" src="../assets/imgs/research/pgt_thumbnail.png"/>
+                    </div>
+                    <button type="button" class="collapsible">Abstract ▶</button>
+                    <div class="collapsible-content">
+                        <p> Psychophysically-guided training, which directs model learning based on human-perceptual annotations, has demonstrated generalization improvements across various vision tasks, including biometric presentation attack detection (PAD). In saliency-guided training, model's decision-making is aligned to image regions marked by human annotators. In perceptually-weighted training, human psychophysical measurements weigh per-sample loss, prioritizing samples with greater 'difficulty'. This paper presents the first application of both strategies to fingerprint PAD. We conducted a 50-participant study to perceptually annotate 800 fingerprint samples, producing human-sourced saliency maps and annotation-duration-based perceptual weighting coefficients. These are utilized alongside algorithmically-generated "pseudosaliency" (minutiae-based, quality-based, and autoencoder-generated) and additional perceptual weighting coefficients derived from minutiae count and sample quality. Evaluating on the 2021 Fingerprint Liveness Detection Competition testing set, we explore various configurations within nine distinct training scenarios to assess the impact of psychophysically-guided training on accuracy and generalization. Our findings demonstrate the effectiveness of psychophysically-guided training for fingerprint PAD in both limited and large data contexts, and we present multiple configurations capable of earning the first place on the LivDet-2021 benchmark. Our results highlight psychophysically-guided training's promise for increased model generalization capabilities, its effectiveness when data is limited, and its potential to scale to larger datasets in fingerprint PAD. All collected saliency maps, perceptual weighting coefficient sets, and trained models are released with the paper to support reproducible research.</p>
                     </div>
                 </div>
 
-                <div class="card" id="grains-card">
-                    <div class="card-title">Grains of Saliency: Optimizing Saliency-based Training of Biometric Attack Detection Models</div>
-                    <div class="card-authors">Colton R. Crum, Samuel Webster, Adam Czajka</div>
-                    <div class="card-authors">Presented at the International Joint Conference on Biometrics (IJCB), Buffalo, NY, USA, September 2024.</div>
+                <div class="card" id="fpad-card">
+                    <div class="card-content">
+                        <div class="card-data">
+                            <div class="card-title">Saliency-Guided Training for Fingerprint Presentation Attack Detection</div>
+                            <div class="card-authors">Samuel Webster, Adam Czajka</div>
+                            <div class="card-authors">Presented at the International Joint Conference on Biometrics (IJCB), Osaka, Japan, September 2025.</div>
 
-                    <img class="thumbnail" src="../assets/imgs/research/grains_thumbnail.jpg"/>
+                            <div class="paper_links">
+                                <a href="https://www.arxiv.org/abs/2505.02176" target="_blank" class="paper_link arxiv">arXiv</a>
+                                <a href="https://ieeexplore.ieee.org/document/11411553" target="_blank" class="paper_link ieee">IEEE Xplore</a>
+                                <a href="https://github.com/CVRL/Human-Machine-Pairing-Fingerprint-PAD" target="_blank" class="paper_link github">GitHub</a>
+                                <a href="https://cvrl.nd.edu/projects/data/#nd-fingerprint-pad-ijcb-2025-dataset" target="_blank" class="paper_link dataset">Dataset</a>
+                            </div>
+                        </div>
+                        <img class="thumbnail" src="../assets/imgs/research/sgt_thumbnail.jpg"/>
+                    </div>
+                    <button type="button" class="collapsible">Abstract ▶</button>
+                    <div class="collapsible-content">
+                        <p>Saliency-guided training, which directs model learning to important regions of images, has demonstrated generalization improvements across various biometric presentation attack detection (PAD) tasks. This paper presents its first application to fingerprint PAD. We conducted a 50-participant study to create a dataset of 800 human-annotated fingerprint perceptually-important maps, explored alongside algorithmically-generated "pseudosaliency," including minutiae-based, image quality-based, and autoencoder-based saliency maps. Evaluating on the 2021 Fingerprint Liveness Detection Competition testing set, we explore various configurations within five distinct training scenarios to assess the impact of saliency-guided training on accuracy and generalization. Our findings demonstrate the effectiveness of saliency-guided training for fingerprint PAD in both limited and large data contexts, and we present a configuration capable of earning the first place on the LivDet-2021 benchmark. Our results highlight saliency-guided training's promise for increased model generalization capabilities, its effectiveness when data is limited, and its potential to scale to larger datasets in fingerprint PAD. All collected saliency data and trained models are released with the paper to support reproducible research.</p>
+                    </div>
 
-                    <p class="abstract">
-                    <span style="font-family: JetBrainsMonoBold;">Abstract: </span>
-                    Incorporating human-perceptual intelligence into model training has shown to increase the generalization capability of models in several difficult biometric tasks, such as presentation attack detection (PAD) and detection of synthetic samples. After the initial collection phase, human visual saliency (e.g., eye-tracking data, or handwritten annotations) can be integrated into model training through attention mechanisms, augmented training samples, or through human perception-related components of loss functions. Despite their successes, a vital, but seemingly neglected, aspect of any saliency-based training is the level of salience granularity (e.g., bounding boxes, single saliency maps, or saliency aggregated from multiple subjects) necessary to find a balance between reaping the full benefits of human saliency and the cost of its collection. In this paper, we explore several different levels of salience granularity and demonstrate that increased generalization capabilities of PAD and synthetic face detection can be achieved by using simple yet effective saliency post-processing techniques across several different CNNs.</p>
-                        
+                    <button type="button" class="collapsible" style="margin-top: 0.5em;">Presentations ▶</button>
+                    <div class="collapsible-content">
+                        <p>Oral Presentations:</p>
+                        <ul>
+                            <li>
+                                “2025 IEEE International Joint Conference on Biometrics,” September 2025, Osaka,
+                                Japan.
+                            </li>
+                        </ul>
+
+                        <p>Poster Presentations:</p>
+                        <ul>
+                            <li>
+                                “2025 IEEE International Joint Conference on Biometrics,” September 2025, Osaka,
+                                Japan.
+                            </li>
+                            <li>
+                                “University of Notre Dame Interdisciplinary Graduate Research Symposium,” April
+                                2025, Notre Dame, IN.
+                            </li>
+                            <li>
+                                “3rd MSU-ND Computer Vision and Biometrics Workshop,” April 2025, Notre Dame, IN.
+                            </li>
+                        </ul>
+                    </div>  
+                </div>
+
+                <div class="card" id="livdet-iris-card">
+                    <div class="card-content">
+                        <div class="card-data">
+                            <div class="card-title">Iris Liveness Detection Competition (LivDet-Iris) - The 2025 Edition</div>
+                            <div class="card-authors">Mahsa Mitcheff, Afzal Hossain, Samuel Webster et al.</div>
+                            <div class="card-authors">Presented at the International Joint Conference on Biometrics (IJCB), Osaka, Japan, September 2025.</div>
+                            
+                            <div class="paper_links">
+                                <a href="https://livdet-iris.org/2025" target="_blank" class="paper_link other">Competition Website</a>
+                                <a href="https://ieeexplore.ieee.org/document/11411572" target="_blank" class="paper_link ieee">IEEE Xplore</a>
+                                <a href="https://github.com/CVRL/livdet-iris-2025" target="_blank" class="paper_link github">GitHub</a>
+                                <a href="https://cvrl.nd.edu/projects/data/#nd-livdet-iris-2025-task2-dataset" target="_blank" class="paper_link dataset">Dataset</a>
+                            </div>
+                        </div>
+                        <img class="thumbnail" src="../assets/imgs/research/livdet-iris_thumbnail.jpg"/>
+                    </div>
+
+                    <button type="button" class="collapsible">Abstract ▶</button>
+                    <div class="collapsible-content">
+                        <p>LivDet-Iris 2025 is the sixth edition of the iris liveness detection competition. Held every two to three years, the competition aims to foster the development of robust algorithms capable of detecting a wide range of physically- and digitally-presented attacks in iris biometrics. The 2025 edition obtained the largest number of submissions in the history of the competition: ten algorithms from five institutions, and one commercial iris recognition system. LivDet-Iris 2025 also introduced new tasks compared to previous editions: (Task 1) a benchmark offered by an industry partner, (Task 2) morphed iris images, in which two different-identity samples were blended into one image, and (Task 3) evaluation of presentation attack detection robustness against advanced manufacturing techniques for textured contact lenses. This edition, for the first time in the series, offers a systematic testing of a commercial iris recognition system (software and hardware) using physical artifacts presented to the sensor. Dermalog-Iris team submitted algorithms that won all tasks, achieving the area under the ROC curve of 90.57%, 68.23% and 99.99% in tasks 1, 2, and 3, respectively. Additionally, we include results for baseline algorithms, based on modern deep convolutional neural networks and trained with all available public datasets of iris images representing bona fide samples and anomalies (physical attacks, eye diseases, post-mortem cases, and synthetically-generated iris images). Test samples created for tasks 2 and 3, and baseline models are made available to offer the state-of-the-art benchmark for iris liveness detection.</p>
+                    </div>
                     
+                    <button type="button" class="collapsible" style="margin-top: 0.5em;">Presentations ▶</button>
+                    <div class="collapsible-content">
+                        <p>Oral Presentations:</p>
+                        <ul>
+                            <li>
+                                “2025 IEEE International Joint Conference on Biometrics,” September 2025, Osaka,
+                                Japan.
+                            </li>
+                        </ul>
+
+                        <p>Poster Presentations:</p>
+                        <ul>
+                            <li>
+                                “2025 IEEE International Joint Conference on Biometrics,” September 2025, Osaka,
+                                Japan.
+                            </li>
+                        </ul>
+                    </div>  
+                </div>
+
+                <div class="card" id="grains-card">
+                    <div class="card-content">
+                        <div class="card-data">
+                            <div class="card-title">Grains of Saliency: Optimizing Saliency-based Training of Biometric Attack Detection Models</div>
+                            <div class="card-authors">Colton R. Crum, Samuel Webster, Adam Czajka</div>
+                            <div class="card-authors">Presented at the International Joint Conference on Biometrics (IJCB), Buffalo, NY, USA, September 2024.</div>
+                            
+                            <div class="paper_links">
+                                <a href="https://arxiv.org/abs/2405.00650" target="_blank" class="paper_link arxiv">arXiv</a>
+                                <a href="https://ieeexplore.ieee.org/document/10744464" target="_blank" class="paper_link ieee">IEEE Xplore</a>
+                                <a href="https://github.com/CVRL/GrainsOfSaliency" target="_blank" class="paper_link github">GitHub</a>
+                            </div>
+                        </div>
+                        <img class="thumbnail" src="../assets/imgs/research/grains_thumbnail.jpg"/>
+                    </div>  
+                    <button type="button" class="collapsible">Abstract ▶</button>
+                    <div class="collapsible-content">
+                        <p>Incorporating human-perceptual intelligence into model training has shown to increase the generalization capability of models in several difficult biometric tasks, such as presentation attack detection (PAD) and detection of synthetic samples. After the initial collection phase, human visual saliency (e.g., eye-tracking data, or handwritten annotations) can be integrated into model training through attention mechanisms, augmented training samples, or through human perception-related components of loss functions. Despite their successes, a vital, but seemingly neglected, aspect of any saliency-based training is the level of salience granularity (e.g., bounding boxes, single saliency maps, or saliency aggregated from multiple subjects) necessary to find a balance between reaping the full benefits of human saliency and the cost of its collection. In this paper, we explore several different levels of salience granularity and demonstrate that increased generalization capabilities of PAD and synthetic face detection can be achieved by using simple yet effective saliency post-processing techniques across several different CNNs.</p>
+                    </div>
+
+                    <button type="button" class="collapsible" style="margin-top: 0.5em;">Presentations ▶</button>
+                    <div class="collapsible-content">
+                        <p>Oral Presentations:</p>
+                        <ul>
+                            <li>Spotlight at “2024 IEEE International Joint Conference on Biometrics,” September
+                                2024, Buffalo, NY.</li>
+                        </ul>
+                        <p>Poster Presentations:</p>
+                        <ul>
+                            <li>“University of Notre Dame CSE Poster Competition and Recruitment Event,” March 2025,
+                                Notre Dame, IN.</li>
+                            <li>“2024 IEEE International Joint Conference on Biometrics,” September 2024, Buffalo,
+                                NY.</li>
+                            <li>“University of Notre Dame College of Science Joint Annual Meeting (COS-JAM)” May
+                                2024, Notre Dame, IN.</li>
+                        </ul>
+                    </div>  
                 </div>
             </div>
         </div>
@@ -110,15 +230,6 @@
         });
         document.getElementById("genart-link").addEventListener('click', function () {
             window.location.href = './genart.html';
-        });
-        document.getElementById("fpad-card").addEventListener('click', function () {
-            window.open('https://www.arxiv.org/abs/2505.02176', '_blank');
-        });
-        document.getElementById("livdet-iris-card").addEventListener('click', function () {
-            window.open('https://livdet-iris.org/2025/', '_blank');
-        });
-        document.getElementById("grains-card").addEventListener('click', function () {
-            window.open('https://arxiv.org/abs/2405.00650', '_blank');
         });
     </script>
 
