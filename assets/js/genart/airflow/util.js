@@ -106,11 +106,11 @@ function randomProperty(obj) {
     return obj[keys[keys.length*random()<<0]];
 };
 
-function keyPressed() {
-    if(keyCode == 83) {
-        saveCanvas();
-    }
-}
+// function keyPressed() {
+//     if(keyCode == 83) {
+//         saveCanvas();
+//     }
+// }
 
 function lerpVec(v1, v2, t) {
     return createVector(lerp(v1.x, v2.x, t), lerp(v1.y, v2.y, t));

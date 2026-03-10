@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/other/favicon-genart.png" type="image/png">
     <link rel="stylesheet" href="../assets/stylesheets/index.css">
     <link rel="stylesheet" href="../assets/stylesheets/genart.css">
     <title>art - sam webster</title>
@@ -57,10 +58,82 @@
             <div id="cards-container"
                 style="width: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 0; margin: 0;">
 
+                <div class="card" id="scratches-card">
+                    <b class="card-title">Scratches</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-scratches.png" />
+                    <p>January 30, 2026</p>
+                </div>
+
+                <!-- <div class="card" id="shifting-grid-card">
+                    <b class="card-title">Shifting Grid</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-shifting-grid.png" />
+                    <p>January 26, 2026</p>
+                </div> -->
+
+                <div class="card" id="medieval-sky-card">
+                    <b class="card-title">Medieval Sky</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-medieval-sky.png" />
+                    <p>January 22, 2026</p>
+                </div>
+
+                <div class="card" id="wire-panel-card">
+                    <b class="card-title">Wire Panel</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-wire-panel.png" />
+                    <p>January 19, 2026</p>
+                </div>
+
+                <div class="card" id="branching-card">
+                    <b class="card-title">Branching</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-branching.png" />
+                    <p>January 18, 2026</p>
+                </div>
+
+                <div class="card" id="order-disorder-card">
+                    <b class="card-title">Order and Disorder</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-order-and-disorder.png" />
+                    <p>January 16, 2026</p>
+                </div>
+
+                <div class="card" id="tree-shadows-card">
+                    <b class="card-title">Tree Shadows</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-tree-shadows.png" />
+                    <p>January 15, 2026</p>
+                </div>
+
+                <div class="card" id="circle-packing-card">
+                    <b class="card-title">Circle Packing</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-circle-packing.png" />
+                    <p>January 14, 2026</p>
+                </div>
+
+                <div class="card" id="radial-automata-card">
+                    <b class="card-title">Radial Automata</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-radial-automata.png" />
+                    <p>January 9, 2026</p>
+                </div>
+
+                <div class="card" id="automata-city-card">
+                    <b class="card-title">Automata City</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-automata-city.png" />
+                    <p>January 8, 2026</p>
+                </div>
+
+                <div class="card" id="boolean-overlaps-card">
+                    <b class="card-title">Boolean Overlaps</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-boolean-overlaps.png" />
+                    <p>January 7, 2026</p>
+                </div>
+
+                <div class="card" id="spiral-quilts-card">
+                    <b class="card-title">Spiral Quilts</b>
+                    <img class="thumbnail" src="../assets/imgs/genart/gen26-spiral-quilt.png" />
+                    <p>January 3, 2026</p>
+                </div>
+
                 <div class="card" id="airflow-card">
                     <b class="card-title">Airflow</b>
                     <img class="thumbnail" src="../assets/imgs/genart/flow-layers.jpeg" />
-                    <p>Work In Progress</p>
+                    <p>2024</p>
                 </div>
 
                 <div class="card" id="elementary-automata-card">
@@ -111,11 +184,11 @@
                     <p>December, 2024</p>
                 </div>
 
-                <div class="card" id="paintbrush-texture-card">
+                <!-- <div class="card" id="paintbrush-texture-card">
                     <b class="card-title">Paintbrush Texture</b>
                     <img class="thumbnail" src="../assets/imgs/genart/paintbrush-texture.png" />
                     <p>March, 2024</p>
-                </div>
+                </div> -->
 
                 <div class="card" id="strata-card">
                     <b class="card-title">Strata</b>
@@ -152,6 +225,42 @@
         });
 
         // linking for cards
+        document.getElementById("scratches-card").addEventListener('click', function () {
+            window.location.href = './genart/scratches.html';
+        });
+        // document.getElementById("shifting-grid-card").addEventListener('click', function () {
+        //     window.location.href = './genart/shifting_grid.html';
+        // });
+        document.getElementById("medieval-sky-card").addEventListener('click', function () {
+            window.location.href = './genart/medieval_sky.html';
+        });
+        document.getElementById("wire-panel-card").addEventListener('click', function () {
+            window.location.href = './genart/wire_panel.html';
+        });
+        document.getElementById("branching-card").addEventListener('click', function () {
+            window.location.href = './genart/branching.html';
+        });
+        document.getElementById("order-disorder-card").addEventListener('click', function () {
+            window.location.href = './genart/order_disorder.html';
+        }); 
+        document.getElementById("tree-shadows-card").addEventListener('click', function () {
+            window.location.href = './genart/tree_shadows.html';
+        });
+        document.getElementById("circle-packing-card").addEventListener('click', function () {
+            window.location.href = './genart/circle_packing.html';
+        });
+        document.getElementById("radial-automata-card").addEventListener('click', function () {
+            window.location.href = './genart/radial_automata.html';
+        });
+        document.getElementById("automata-city-card").addEventListener('click', function () {
+            window.location.href = './genart/automata_city.html';
+        });
+        document.getElementById("boolean-overlaps-card").addEventListener('click', function () {
+            window.location.href = './genart/boolean_overlaps.html';
+        });
+        document.getElementById("spiral-quilts-card").addEventListener('click', function () {
+            window.location.href = './genart/spiral_quilts.html';
+        });
         document.getElementById("airflow-card").addEventListener('click', function () {
             window.location.href = './genart/airflow.html';
         });
