@@ -40,160 +40,159 @@
             style="padding: 0; margin: 0; width: 100vw; display: flex; flex-direction: column; align-items: center;">
 
             <div id="brief"
-                style="padding: 1em; text-align: center; align-items: center; display: flex; flex-direction: column; width: 90%;">
+                style="margin: 1em; text-align: center; align-items: center; display: flex; flex-direction: column; width: 90%;">
                 <!-- <h1>This page contains a selection of my generative art projects.</h1> -->
                 Click any card to view the artwork! Some works take longer to generate than others.
-                <button type="button" class="collapsible" style="margin-top: 0.5em;">FAQ ▶</button>
+                <button type="button" class="collapsible" style="margin-top: 0.5em;">info ▶</button>
                 <div class="collapsible-content" style="text-align: left; width: 80%;">
                     I create generative art under the identity <a href="https://x.com/tntwntythr" target="_blank" rel="noopener noreferrer">Ten Twentythree</i></a> (after my birthday, October 23). I discovered it in the summer of 2022.
                     <p>* <u>What is generative art?</u></p>
                     <p><b>In my words</b>, generative artwork is <b>an algorithm</b> that creates some space of artistic output. As a generative artist, my role is to write code that controls this space while still
                         producing diverse and interesting works.</p>
-                    <p>* <u>Are these AI/ChatGPT/Midjourney/Sora/StableDiffusion generated?</u></p>
+                    <p>* <u>Is this AI art (ChatGPT/Midjourney/Sora/StableDiffusion -generated)?</u></p>
                     <p><b>No</b>, it's all hand-coded using p5.js, a JavaScript library for creative coding.</p>
                 </div>
-
             </div>
 
-            <div id="cards-container"
-                style="width: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 0; margin: 0;">
+            <div class="cards-section">
+                <h1>Personal Favorites</h1>
+                <div>
 
-                <div class="card" id="scratches-card">
-                    <b class="card-title">Scratches</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/scratches.webp" />
-                    <p>January 30, 2026</p>
+                    <div class="card" id="airflow-card" style="background-image: url('../assets/imgs/genart/airflow.webp');">
+                        <b class="card-title">Airflow</b>
+                        <p>2024</p>
+                    </div>
+
+                     <div class="card" id="branching-card" style="background-image: url('../assets/imgs/genart/branching.webp');">
+                        <b class="card-title">Branching</b>
+                        <p>January 18, 2026 (Genuary26)</p>
+                    </div>
+
+                    <div class="card" id="brutalist-apartments-card" style="background-image: url('../assets/imgs/genart/brutalist_apts.webp');">
+                        <b class="card-title">Brutalist Apartments</b>
+                        <p>January 23, 2025 (Genuary25)</p>
+                    </div>
+
                 </div>
+            </div>
 
-                <!-- <div class="card" id="shifting-grid-card">
-                    <b class="card-title">Shifting Grid</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/gen26-shifting-grid.png" />
-                    <p>January 26, 2026</p>
-                </div> -->
+            <div class="cards-section">
+                <h1>Nature & Landscapes</h1>
 
-                <div class="card" id="medieval-sky-card">
-                    <b class="card-title">Medieval Sky</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/medieval_sky.webp" />
-                    <p>January 22, 2026</p>
+                <div>
+
+                    <div class="card" id="tree-shadows-card" style="background-image: url('../assets/imgs/genart/tree_shadows.webp');">
+                        <b class="card-title">Tree Shadows</b>
+                        <p>January 15, 2026 (Genuary26)</p>
+                    </div>
+
+                    <div class="card" id="grassy-fields-card" style="background-image: url('../assets/imgs/genart/grassy_fields.webp');">
+                        <b class="card-title">Grassy Fields</b>
+                        <p>January 13, 2025 (Genuary25)</p>
+                    </div>
+
+                    <div class="card" id="hydraulic-erosion-card" style="background-image: url('../assets/imgs/genart/hydraulic_erosion.webp');">
+                        <b class="card-title">Hydraulic Erosion</b>
+                        <p>January 11, 2025 (Genuary25)</p>
+                    </div>
+
+                    <div class="card" id="isometric-hedge-parks-card" style="background-image: url('../assets/imgs/genart/hedge_parks.webp');">
+                        <b class="card-title">Isometric Hedge Parks</b>
+                        <p>January 5, 2025 (Genuary25)</p>
+                    </div>
+
+                </div> 
+            </div>
+
+            <div class="cards-section">
+                <h1>Cellular Automata</h1>
+
+                <div>
+
+                    <div class="card" id="radial-automata-card" style="background-image: url('../assets/imgs/genart/radial_automata.webp');">
+                        <b>Radial Automata</b>
+                        <p>January 9, 2026 (Genuary26)</p>
+                    </div>
+
+                    <div class="card" id="automata-city-card" style="background-image: url('../assets/imgs/genart/automata_city.webp');">
+                        <b >Automata City</b>
+                        <p>January 8, 2026 (Genuary26)</p>
+                    </div>
+
+                    <div class="card" id="elementary-automata-card" style="background-image: url('../assets/imgs/genart/elementary_automata_layers.webp');">
+                        <b class="card-title">Elementary Automata Layers</b>
+                        <p>January 24, 2025 (Genuary25)</p>
+                    </div>
+
                 </div>
+            </div>
+                  
 
-                <div class="card" id="wire-panel-card">
-                    <b class="card-title">Wire Panel</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/wire_panel.webp" />
-                    <p>January 19, 2026</p>
-                </div>
+        
+            <div class="cards-section">
+                <h1>Other</h1>
 
-                <div class="card" id="branching-card">
-                    <b class="card-title">Branching</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/branching.webp" />
-                    <p>January 18, 2026</p>
-                </div>
+                <div>
 
-                <div class="card" id="order-disorder-card">
-                    <b class="card-title">Order and Disorder</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/order_disorder.webp" />
-                    <p>January 16, 2026</p>
-                </div>
+                    <div class="card" id="scratches-card" style="background-image: url('../assets/imgs/genart/scratches.webp');">
+                        <b>Scratches</b>
+                        <p>January 30, 2026 (Genuary26)</p>
+                    </div>
 
-                <div class="card" id="tree-shadows-card">
-                    <b class="card-title">Tree Shadows</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/tree_shadows.webp" />
-                    <p>January 15, 2026</p>
-                </div>
+                    <div class="card" id="medieval-sky-card" style="background-image: url('../assets/imgs/genart/medieval_sky.webp');">
+                        <b class="card-title">Medieval Sky</b>
+                        <p>January 22, 2026 (Genuary26)</p>
+                    </div>
 
-                <div class="card" id="circle-packing-card">
-                    <b class="card-title">Circle Packing</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/circle_packing.webp" />
-                    <p>January 14, 2026</p>
-                </div>
+                    <div class="card" id="wire-panel-card" style="background-image: url('../assets/imgs/genart/wire_panel.webp');">
+                        <b class="card-title">Wire Panel</b>
+                        <p>January 19, 2026 (Genuary26)</p>
+                    </div>
 
-                <div class="card" id="radial-automata-card">
-                    <b class="card-title">Radial Automata</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/radial_automata.webp" />
-                    <p>January 9, 2026</p>
-                </div>
+                    <div class="card" id="order-disorder-card" style="background-image: url('../assets/imgs/genart/order_disorder.webp');">
+                        <b class="card-title">Order and Disorder</b>
+                        <p>January 16, 2026 (Genuary26)</p>
+                    </div>
 
-                <div class="card" id="automata-city-card">
-                    <b class="card-title">Automata City</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/automata_city.webp" />
-                    <p>January 8, 2026</p>
-                </div>
+                    <div class="card" id="circle-packing-card" style="background-image: url('../assets/imgs/genart/circle_packing.webp');">
+                        <b class="card-title">Circle Packing</b>
+                        <p>January 14, 2026 (Genuary26)</p>
+                    </div>
 
-                <div class="card" id="boolean-overlaps-card">
-                    <b class="card-title">Boolean Overlaps</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/boolean_overlaps.webp" />
-                    <p>January 7, 2026</p>
-                </div>
+                    <div class="card" id="boolean-overlaps-card" style="background-image: url('../assets/imgs/genart/boolean_overlaps.webp');">
+                        <b class="card-title">Boolean Overlaps</b>
+                        <p>January 7, 2026 (Genuary26)</p>
+                    </div>
 
-                <div class="card" id="spiral-quilts-card">
-                    <b class="card-title">Spiral Quilts</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/spiral_quilts.webp" />
-                    <p>January 3, 2026</p>
-                </div>
+                    <div class="card" id="spiral-quilts-card" style="background-image: url('../assets/imgs/genart/spiral_quilts.webp');">
+                        <b class="card-title">Spiral Quilts</b>
+                        <p>January 3, 2026 (Genuary26)</p>
+                    </div>
 
-                <div class="card" id="airflow-card">
-                    <b class="card-title">Airflow</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/airflow.webp" />
-                    <p>2024</p>
-                </div>
+                    <div class="card" id="wind-sketches-card" style="background-image: url('../assets/imgs/genart/wind_sketches.webp');">
+                        <b class="card-title">Wind Sketches</b>
+                        <p>January 18, 2025 (Genuary25)</p>
+                    </div>
 
-                <div class="card" id="elementary-automata-card">
-                    <b class="card-title">Elementary Automata Layers</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/elementary_automata_layers.webp" />
-                    <p>January 24, 2025 (Genuary25)</p>
-                </div>
+                    <div class="card" id="black-on-black-card" style="background-image: url('../assets/imgs/genart/black_on_black.webp');">
+                        <b class="card-title">Black on Black</b>
+                        <p>January 4, 2025 (Genuary25)</p>
+                    </div>
 
-                <div class="card" id="brutalist-apartments-card">
-                    <b class="card-title">Brutalist Apartments</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/brutalist_apts.webp" />
-                    <p>January 23, 2025 (Genuary25)</p>
-                </div>
+                    <div class="card" id="fxmas-trees-card" style="background-image: url('../assets/imgs/genart/fxmas-trees.png');">
+                        <b class="card-title">FXmas Trees</b>
+                        <p>December, 2024</p>
+                    </div>
 
-                <div class="card" id="wind-sketches-card">
-                    <b class="card-title">Wind Sketches</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/wind_sketches.webp" />
-                    <p>January 18, 2025 (Genuary25)</p>
-                </div>
+                    <div class="card" id="strata-card" style="background-image: url('../assets/imgs/genart/strata.png');">
+                        <b class="card-title">Strata</b>
+                        <p>February, 2024</p>
+                    </div>
 
-                <div class="card" id="grassy-fields-card">
-                    <b class="card-title">Grassy Fields</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/grassy_fields.webp" />
-                    <p>January 13, 2025 (Genuary25)</p>
-                </div>
-
-                <div class="card" id="hydraulic-erosion-card">
-                    <b class="card-title">Hydraulic Erosion</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/hydraulic_erosion.webp" />
-                    <p>January 11, 2025 (Genuary25)</p>
-                </div>
-
-                <div class="card" id="isometric-hedge-parks-card">
-                    <b class="card-title">Isometric Hedge Parks</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/hedge_parks.webp" />
-                    <p>January 5, 2025 (Genuary25)</p>
-                </div>
-
-                <div class="card" id="black-on-black-card">
-                    <b class="card-title">Black on Black</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/black_on_black.webp" />
-                    <p>January 4, 2025 (Genuary25)</p>
-                </div>
-
-                <div class="card" id="fxmas-trees-card">
-                    <b class="card-title">FXmas Trees</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/fxmas-trees.png" />
-                    <p>December, 2024</p>
-                </div>
-
-                <div class="card" id="strata-card">
-                    <b class="card-title">Strata</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/strata.png" />
-                    <p>February, 2024</p>
-                </div>
-
-                <div class="card" id="cutouts-card">
-                    <b class="card-title">Paper Cutouts</b>
-                    <img class="thumbnail" src="../assets/imgs/genart/cutouts.webp" />
-                    <p>February, 2023</p>
+                    <div class="card" id="cutouts-card" style="background-image: url('../assets/imgs/genart/cutouts.webp');">
+                        <b class="card-title">Paper Cutouts</b>
+                        <p>February, 2023</p>
+                    </div>
                 </div>
 
             </div>
