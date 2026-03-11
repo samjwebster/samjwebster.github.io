@@ -42,7 +42,7 @@ class Composition {
 
         let padding = 0.025*min(width, height);
 
-        let desiredDim = 0.025 * min(width, height);
+        let desiredDim = random(0.020, 0.050) * min(width, height); // 0.025
         let ct_x = ceil((width - 2*padding)/desiredDim);
         let dim_x = (width - 2*padding)/ct_x;
         let ct_y = ceil((height - 2*padding)/desiredDim);
@@ -59,9 +59,11 @@ class Composition {
             }
         }
 
-        let c = p.r();
+        let ca = p.r();
+        let cb = p.r(); // color(20);
+
         for(let cell of this.cells) {
-            cell.computeDisorders(det, c);
+            cell.computeDisorders(det, ca, cb);
         }
 
         noiseSeed(round(random()*99999));
@@ -171,7 +173,7 @@ class Cell {
         ];
     }
 
-    computeDisorders(detail, c) {
+    computeDisorders(detail, ca, cb) {
         this.disorders = [];
         let avg = 0;
         for (let v of this.verts) {
@@ -181,7 +183,9 @@ class Cell {
         }
         avg /= this.verts.length;
         // color("#1e3282")
-        this.c = lerpColor(c, color(20), (1-avg)*0.5);
+        let t = (1-avg);
+        console.log(t);
+        this.c = lerpColor(ca, cb, t);
     }
 
     computeAngles(detail, offset) {

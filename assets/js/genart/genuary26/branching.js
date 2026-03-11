@@ -22,10 +22,11 @@ function regenerate() {
     p = getPalette();
     p.shuffle();
 
+    clear();
     c = new Composition();
-    while(!c.isDone()) {
-        c.update(100);
-    }
+    // while(!c.isDone()) {
+    //     c.update(100);
+    // }
     renderGen = c.render();
     loop();
 }
@@ -130,6 +131,16 @@ class Composition {
     }
 
     *render() {
+
+        // Add the updating and progress rendering here for visual interest
+        push();
+        while(!this.isDone()) {
+            this.update(5);
+            this.renderProgress();
+            yield;
+        }
+        pop();
+
         renderBackground();
         yield;
 
@@ -317,6 +328,7 @@ function sketchyLine(a, b, col, t) {
 }
 
 function renderBackground() {
+    clear();
     push();
     noStroke();
     p.shuffle();

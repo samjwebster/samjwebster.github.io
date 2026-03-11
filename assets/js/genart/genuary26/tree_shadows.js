@@ -234,7 +234,7 @@ class Tree {
                 let pb = [x + pt.x + offX, y - pt.y + offY];
 
                 fill(lerpColor(col_start, col_end, t));
-                steps_drawn += texturedLine(pa, pb, lerpColor(col_start, col_end, t), random(1.1, 1.3));
+                steps_drawn += texturedLine(pa, pb, lerpColor(col_start, col_end, t), random(1.1, 2.5));
             }
 
             // draw leaves as uniformly sampled points within the leaves polygon

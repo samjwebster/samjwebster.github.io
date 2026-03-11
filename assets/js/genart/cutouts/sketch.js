@@ -58,7 +58,8 @@ class Manager {
         for(let i = 0; i < count; i++) {
             this.temp = {
                 depth: i/(count-1),
-                shadowmod: this.shadowLerp(i/(count-1)),
+                // shadowmod: this.shadowLerp(i/(count-1)),
+                shadowmod: i/(count-1),
                 col: p.r(),
             }
 
@@ -81,7 +82,13 @@ class Manager {
             sheets.push(sheet);
         }
 
+        drawingContext.shadowColor = color(0, 50);
+        drawingContext.shadowBlur = 4;
+        let shadowOffsetDir = random([-1, 1])
+
         for(let i = 0; i < sheets.length; i++) {
+            drawingContext.shadowOffsetY = lerp(0.02, 0.08, sheets[i].shadowmod)*min(width, height);
+            drawingContext.shadowOffsetX = shadowOffsetDir * lerp(0.01, 0.04, sheets[i].shadowmod)*min(width, height);
             sheets[i].render();
             yield;
         }
@@ -266,31 +273,30 @@ class Sheet {
         bodyimg.copy(body, 0, 0, body.width, body.height, 0, 0, body.width, body.height);
         bodyimg.mask(mask);
 
-        // let shadow = createGraphics(w*this.shadowmod, w*this.shadowmod);
-        // //shadow.background(this.shadowcol);
+        // // let shadow = createGraphics(w*this.shadowmod, w*this.shadowmod);
+        // // //shadow.background(this.shadowcol);
+        // // shadow.fill(this.shadowcol);
+        // // shadow.noStroke;
+        // // shadow.rect(-q, -q, w+h, w+h);
+
+        // // let shadowimg = createImage(shadow.width, shadow.height);
+        // // shadowimg.copy(shadow, 0, 0, shadow.width, shadow.height, 0, 0, shadow.width, shadow.height);
+        // // shadowimg.mask(mask);
+        // // shadowimg.filter(BLUR, 2);
+
+        // // image(shadowimg, 0, 0, shadowimg.width, shadowimg.height);
+
+        // let shadow = createGraphics(width, height);
         // shadow.fill(this.shadowcol);
         // shadow.noStroke;
-        // shadow.rect(-q, -q, w+h, w+h);
+        // shadow.rect(-width/4, -height/4, width+(width/2), height+(height/2));
 
         // let shadowimg = createImage(shadow.width, shadow.height);
         // shadowimg.copy(shadow, 0, 0, shadow.width, shadow.height, 0, 0, shadow.width, shadow.height);
-        // shadowimg.mask(mask);
-        // shadowimg.filter(BLUR, 2);
+        // shadowimg.mask(shadowmask);
+        // shadowimg.filter(BLUR, round((max(width, height)/1000)*2));
 
         // image(shadowimg, 0, 0, shadowimg.width, shadowimg.height);
-
-        let shadow = createGraphics(width, height);
-        //shadow.background(this.shadowcol);
-        shadow.fill(this.shadowcol);
-        shadow.noStroke;
-        shadow.rect(-width/4, -height/4, width+(width/2), height+(height/2));
-
-        let shadowimg = createImage(shadow.width, shadow.height);
-        shadowimg.copy(shadow, 0, 0, shadow.width, shadow.height, 0, 0, shadow.width, shadow.height);
-        shadowimg.mask(shadowmask);
-        shadowimg.filter(BLUR, round((max(width, height)/1000)*2));
-
-        image(shadowimg, 0, 0, shadowimg.width, shadowimg.height);
         
         image(bodyimg, 0, 0, width, height);
     }

@@ -35,18 +35,31 @@ function draw() {
 
 class Composition {
     constructor() {
-        this.ct_x = floor(random(8, 24));
-        this.ct_y = floor(random(8, 24));
+        
+        this.padding = random(0.025, 0.065) * dim;
 
-        this.padding = random(0.04, 0.08) * dim;
+
+        let target_sz_x = random(0.05, 0.15) * dim;
+        let target_sz_y = random(0.05, 0.15) * dim;
+
+        this.ct_x = ceil((width - 2*this.padding) / target_sz_x);
+        this.ct_y = ceil((height - 2*this.padding) / target_sz_y);
+
+        let size_x = (width - 2*this.padding) / this.ct_x;
+        let size_y = (height - 2*this.padding) / this.ct_y;
+
+        // this.ct_x = floor(random(8, 24));
+        // this.ct_y = floor(random(8, 24));
+
+        // let size_x = (width - this.padding * 2) / this.ct_x;
+        // let size_y = (height - this.padding * 2) / this.ct_y;
+
 
         let screen = [];
         for(let i = 0; i < width; i++) {
             screen.push(new Array(height).fill(0));
         }
-
-        let size_x = (width - this.padding * 2) / this.ct_x;
-        let size_y = (height - this.padding * 2) / this.ct_y;
+        
         let nDetail = random(0.01, 0.025);
 
         for(let i = 0; i < this.ct_x; i++) {

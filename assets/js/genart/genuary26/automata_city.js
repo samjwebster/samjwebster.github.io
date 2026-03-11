@@ -36,51 +36,6 @@ function draw() {
     }
 }
 
-// function draw() {
-//   // Draw each cell based on its state.
-//   for (let i = 0; i < cells.length; i++) {
-//     let x = i * w;
-//     noStroke();
-//     fill(255 - cells[i] * 255);
-//     square(x, y, w);
-//   }
-
-//   // Move to the next row.
-//   y += w;
-
-//   // Prepare an array for the next generation of cells.
-//   let nextCells = [];
-
-//   // Iterate over each cell to calculate its next state.
-//   let len = cells.length;
-//   for (let i = 0; i < len; i++) {
-//     // Calculate the states of neighboring cells
-//     let left = cells[(i - 1 + len) % len];
-//     let right = cells[(i + 1) % len];
-//     let state = cells[i];
-
-//     let pos = [i*w, y];
-//     let n = noise(pos[0]/width * 10, pos[1]/height * 10);
-
-//     let newState;
-//     let automataIndex = floor(n * automata.length);
-//     newState = automata[automataIndex].calculateState(left, state, right);
-
-
-//     // Set the new state based on the current state and neighbors.
-//     // let newState = calculateState(left, state, right);
-//     nextCells[i] = newState;
-//   }
-
-//   // Update the cells array for the next generation.
-//   cells = nextCells;
-
-//     // If the cells have reached the bottom of the canvas, stop the animation.'
-//     if (y >= height) {
-//         noLoop();
-//     }
-// }
-
 class Composition {
     constructor() {
 
@@ -95,13 +50,13 @@ class Composition {
 
     generate() {
         this.automata = [];
-        let nAutomata = 5;
+        let nAutomata = random([2, 3, 4, 5]);
         for(let i = 0; i < nAutomata; i++) {
             this.automata[i] = new ElementaryAutomata(round(random()*255));
         }
 
-        let desiredWidth = 0.0065 * width;
-        // let desiredWidth = 0.02 * width;
+        // let desiredWidth = 0.0065 * width;
+        let desiredWidth = random(0.003, 0.007) * width;
         let countX = ceil(width / desiredWidth);
         let cellW = width / countX;
 
@@ -115,6 +70,7 @@ class Composition {
         let nDetail = 8;
         let offX = random()*999999;
         let offY = random()*999999;
+
 
         let heightScale = random(0.2, 0.4) * min(width, height);
 
@@ -228,8 +184,8 @@ class Cell {
         for(let corner of this.corners) {
             let iso = cartToIso(corner[0], corner[1]);
             iso[0] += width / 2;
-            iso[0] = map(iso[0], 0, width, -0.4*width, width*1.4);
-            iso[1] = map(iso[1], 0, height, -0.4*height, height*1.4);
+            iso[0] = map(iso[0], 0, width, -0.8*width, width*1.8);
+            iso[1] = map(iso[1], 0, height, -0.8*height, height*1.8);
             this.corners_iso.push(iso);
         }
 

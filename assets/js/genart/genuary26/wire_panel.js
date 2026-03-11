@@ -42,7 +42,7 @@ class Composition {
         this.padding = random(0.02, 0.075) * min(width, height);
         this.cells = [];
 
-        let ct = 16;
+        let ct = round(random(12, 25));
         let w = width - 2 * this.padding;
         let cell_w = w / ct;
         let h = height - 2 * this.padding;
@@ -63,6 +63,16 @@ class Composition {
                 this.cells.push(new Cell(x, y, cell_w, cell_h, n, id));
             }
         }
+
+        noiseSeed(round(random()*99999));
+
+        for(let cell of this.cells) {
+            let n2 = noise(cell.x * nd * 2, cell.y * nd * 2);
+            n2 = map(n2, 0.1, 0.9, 0, 1, true);
+            cell.n2 = n2;
+        }
+
+        noiseSeed(round(random()*99999));
 
         let weighted_cell_ids = [];
 
@@ -123,16 +133,20 @@ class Composition {
     // }
 
     *render() {
-        background(200);
+        background(lerpColor(color(200), p.r(), random(0, 0.20)));
 
         let ctr = 0;
         let skipper = 20;
 
-        drawingContext.filter = 'blur(2px)';
-        for(let cell of this.cells) {
-            cell.renderCellShadow();
-            if (ctr++ % skipper == 0) yield;
-        }
+        // drawingContext.filter = 'blur(2px)';
+        // for(let cell of this.cells) {
+        //     cell.renderCellShadow();
+        //     if (ctr++ % skipper == 0) yield;
+        // }
+
+        drawingContext.shadowOffsetY = 0.0025 * min(width, height);
+        drawingContext.shadowBlur = 0.0025 * min(width, height);
+        drawingContext.shadowColor = color(20, 20, 20, 50);
 
         drawingContext.filter = 'none';
         for(let cell of this.cells) {
@@ -140,11 +154,11 @@ class Composition {
             if (ctr++ % skipper == 0) yield;
         }
 
-        drawingContext.filter = 'blur(2px)';
-        for(let cell of this.cells) {
-            cell.renderRopesShadows();
-            if (ctr++ % skipper == 0) yield;
-        }
+        // drawingContext.filter = 'blur(2px)';
+        // for(let cell of this.cells) {
+        //     cell.renderRopesShadows();
+        //     if (ctr++ % skipper == 0) yield;
+        // }
         
         drawingContext.filter = 'none';
         for(let cell of this.cells) {
@@ -168,6 +182,8 @@ class Cell {
         this.h = h;
         this.n = n;
         this.id = id;
+
+        this.type = random(['circle', 'square', 'triangle']);
 
         this.ropes = [];
         this.rope_ct = floor(random(0, 4));
@@ -214,40 +230,38 @@ class Cell {
     renderCell() {
         fill(p.getFloat(this.n));
         noStroke();
-        circle(this.x + this.w/2, this.y + this.h/2, min(this.w, this.h) * (0.25 + this.n/1.5));
-    }
 
-    renderCellShadow() {
-        fill(color(20, 20, 20, 50));
-        noStroke();
-        circle(this.x + this.w/2, this.y + this.h/2 + 0.0025 * min(width, height), min(this.w, this.h) * (0.25 + this.n/1.5));
+        let ctr = [this.x + this.w/2, this.y + this.h/2];
+        let sz = min(this.w, this.h) * (0.25 + this.n/1.5);
+
+        if(this.type == 'square') {
+            rectMode(CENTER);
+            rect(...ctr, sz, sz);
+        } else if(this.type == 'triangle') {
+            let distToCenter = sz / sqrt(3);
+            let angles = [-PI/2, PI/6, 5*PI/6];
+            beginShape();
+            for(let angle of angles) {
+                let x = ctr[0] + cos(angle) * distToCenter;
+                let y = ctr[1] + sin(angle) * distToCenter;
+                vertex(x, y);
+            }
+            endShape(CLOSE);
+        } else if(this.type == 'circle') {
+            circle(...ctr, sz);
+        }
     }
 
     renderRopes() {
         noFill();
-        for(let rope of this.ropes) {
-            let col = p.getFloat(this.n);
-            strokeWeight(2);
-            stroke(col);
-            noFill();
+        stroke(p.getFloat(this.n2));
+        strokeWeight(2);
+
+        for(let rope of this.ropes) { 
             beginShape();
             vertex(...rope.a);
             bezierVertex(...rope.cw1, ...rope.cw2, ...rope.b);
             endShape();
-
-        }
-    }
-
-    renderRopesShadows() {
-        noFill();
-        stroke(color(20, 20, 20, 50));
-        for(let rope of this.ropes) {
-            strokeWeight(2);
-            beginShape();
-            vertex(...rope.a);
-            bezierVertex(rope.cw1[0], rope.cw1[1] + 0.0025 * min(width, height), rope.cw2[0], rope.cw2[1] + 0.0025 * min(width, height), ...rope.b);
-            endShape();
-
         }
     }
 }

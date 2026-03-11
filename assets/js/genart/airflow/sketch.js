@@ -1,6 +1,6 @@
 // let c;
 let p, renderer;
-let lightDir,lightCol, darkCol;
+let lightDir;
 let borderSize;
 let dim;
 
@@ -18,26 +18,16 @@ function setup() {
 
 function regenerate() {
     clear();
-    loop();
 
     p = getPalette();
     p.desaturate(0.2);
-    // p.makeGrayscale();
-
-    lightDir = p5.Vector.fromAngle(random() * PI);
-
-    // lightCol = lerpColor(p.r(), color(245), 0.9);
-    // darkCol = lerpColor(p.r(), color(0), 0.90);
-
-    lightCol = color(255);
-    darkCol = color(0);
-
 
     borderSize = random([0, random(0.01, 0.05)*dim]);
 
     let c = new Composition;
     renderer = c.render();
 
+    loop();
 }
 
 function draw() {
@@ -62,7 +52,7 @@ class Composition {
         yield;
 
         this.layers = [];
-        let layer_ct = round(random(5, 15));
+        let layer_ct = floor(random(5, 10));
 
         for(let i = 0; i < layer_ct; i++) {
             let layer = new NoiseLayer();
@@ -71,16 +61,18 @@ class Composition {
         
         let pts = [];
         for(let layer of this.layers) {
-            let layer_pts = layer.getPts(dim/35);
+            let layer_pts = layer.getPts(20); // dim/35
             pts = pts.concat(layer_pts);
         }
         pts.sort((a, b) => a.lightIntensity - b.lightIntensity || a.depth - b.depth);
 
-        let trim = random(0.5, 0.9);
-        pts = pts.slice(0, floor(trim * pts.length));
+        // console.log("noise extremes:", minSeen, maxSeen);
+
+        // let trim = random(0.5, 0.9);
+        // pts = pts.slice(0, floor(trim * pts.length));
 
         // For incremental rendering
-        let skipper = 150;
+        let skipper = 300; // 150
         let ct = 0;
 
         pts.forEach(pt => {
@@ -97,15 +89,17 @@ class Composition {
         push();
         noStroke();
 
+        let lightDir = p5.Vector.fromAngle(random() * PI);
+
         blendMode(HARD_LIGHT);
         let currentBlendMode = HARD_LIGHT;
 
         // console.log(pts.length)
-        let stopAt = random(0.80, 1) * pts.length
-        let ptCount = 0;
+        // let stopAt = random(0.80, 1) * pts.length
+        // let ptCount = 0;
         for(let pt of pts) {
-            ptCount += 1;
-            if(ptCount > stopAt) break;
+            // ptCount += 1;
+            // if(ptCount > stopAt) break;
 
             if(pt.blendMode != currentBlendMode) {
                 blendMode(pt.blendMode);
@@ -166,62 +160,75 @@ class Composition {
             // Use use angle between posA and posB get color based on light
             let surfaceNormal = p5.Vector.sub(createVector(...posB), createVector(...posA)).rotate(PI/2).normalize();
 
-            let lightIntensity = constrain(
-                p5.Vector.dot(lightDir, surfaceNormal) ** 2, 0, 1
-            );
-
-            if(lightIntensity > 0.80) {
-                let amt = map(lightIntensity, 0.80, 1, 0, 0.30);
-                pt.col = lerpColor(pt.col, lightCol, amt);
-            } else if (lightIntensity < 0.20) {
-                let amt =  map(1 - lightIntensity, 0.80, 1, 0, 0.30);
-                pt.col = lerpColor(pt.col, darkCol, amt);
+            let lightIntensity = p5.Vector.dot(lightDir, surfaceNormal);
+            if(lightIntensity > 0) {
+                // Being lit
+                pt.col = lerpColor(pt.col, pt.lightCol, 0.4*(lightIntensity**2));
+            } else {
+                // Facing away from light
+                pt.col = lerpColor(pt.col, pt.darkCol, 0.30);
             }
+
+            // let lightBand = 0.10;
+            // let lightLerp = 0.75;
+
+            // if(lightIntensity > 1-lightBand) {
+            //     let amt = map(lightIntensity, 1-lightBand, 1, 0, lightLerp);
+            //     amt *= amt;
+            //     pt.col = lerpColor(pt.col, pt.lightCol, amt);
+            // } else if (lightIntensity < lightBand) {
+            //     let amt =  map(1 - lightIntensity, 1-lightBand, 1, 0, lightLerp);
+            //     amt *= amt;
+            //     pt.col = lerpColor(pt.col, pt.darkCol, amt);
+            // }
 
             fill(pt.col);
-            // circle(...posA, 5);
-            if (random() > 0.5) {
-                scribblyBez(posA, anchorA, anchorB, posB, pt.col);
-            } else {
-                scribblyLine(posA, posB, pt.col);
-            }
+            scribblySegment(random(['line', 'bez']), {
+                a: posA, b: posB, a1: anchorA, a2: anchorB
+            }, pt.col, pt.nPtMod);
             
             ct++;
             if(ct % skipper == 0) yield 1;
         }
         pop();
 
-        granulate(10);
+        granulate(4);
     }
 }
 
 class NoiseLayer {
     constructor() {
 
-        let detailMod = random(0.60, 1.75);
+        let detailMod = random(1.0, 2.0);
 
         this.n_dir = new Noise(
-            detailMod, 1,
+            detailMod * random(0.6, 1.2), 1,
+            detailMod * random(0.6, 1.2)
         );
 
         this.n_depth = new Noise(
-            5 * detailMod, 2
+            2 * detailMod, 1,
+            2 * detailMod
         );
 
         this.n_col = new Noise(
-            random(1, 2) * detailMod, 2
-        );
-
-        this.n_norm = new Noise(
-            5 * detailMod, 1
+            random(1, 2) * detailMod, 1,
+            random(1, 2) * detailMod
         );
 
         this.n_anchor_a = new Noise(
-            random(2, 3) * detailMod, 1
+            random(2, 3) * detailMod, 1,
+            random(2, 3) * detailMod
         );
 
         this.n_anchor_b = new Noise(
-            random(2, 3) * detailMod, 1
+            random(2, 3) * detailMod, 1,
+            random(2, 3) * detailMod
+        );
+
+        this.n_nPtMod = new Noise(
+            2*detailMod, 1,
+            2*detailMod
         );
 
         this.startCol = p.r();
@@ -264,45 +271,76 @@ class NoiseLayer {
             }
         }
 
+        this.n_depth.setSeed();
+        // let avgDepth = 0;
+        for(let pt of pts) {
+            let depth = this.n_depth.n(pt.x, pt.y);
+            pt.depth = depth;
+            // avgDepth += depth;
+        }
+        // avgDepth /= pts.length;
+
+        // // testing: check distribution of depth values
+        // for(let i = 0; i < 10; i++) {
+        //     let minRange = i/10;
+        //     let maxRange = (i+1)/10;
+        //     let ct = pts.filter(pt => pt.depth >= minRange && pt.depth < maxRange).length;
+        //     let pct = ct/pts.length;
+        //     console.log("depth range", minRange.toFixed(1), "-", maxRange.toFixed(1), ":", pct.toFixed(3) + "(" + ct + " pts)");
+
+        // }
+
+        // Random Thresholding
+        while(true) {
+            let inside = random([true, true, false]);
+            let thresholdSize;
+            if(inside) {
+                thresholdSize = random(0.05, 0.175);
+            } else {
+                thresholdSize = random(0.75, 0.90);
+            }
+
+            let thresholdCtr = random(0.20, 0.80);
+            let lowerThreshold = thresholdCtr - thresholdSize/2;
+            let upperThreshold = thresholdCtr + thresholdSize/2;
+
+            let smooth = 0.10;
+
+            let filtered;
+            if(inside) {
+                filtered = pts.filter(pt => 
+                    (pt.depth > lowerThreshold && pt.depth < upperThreshold) ||  // within thresholds
+                    (pt.depth > lowerThreshold - smooth && pt.depth < lowerThreshold && random() < (lowerThreshold - pt.depth)/smooth) || // just below lower threshold
+                    (pt.depth < upperThreshold + smooth && pt.depth > upperThreshold && random() < (pt.depth - upperThreshold)/smooth) // just above upper threshold
+                );
+            } else {
+                filtered = pts.filter(pt =>
+                    (pt.depth < lowerThreshold || pt.depth > upperThreshold) ||  // outside thresholds
+                    (pt.depth < lowerThreshold + smooth && pt.depth > lowerThreshold && random() < (lowerThreshold + smooth - pt.depth)/smooth) || // just above lower threshold
+                    (pt.depth > upperThreshold - smooth && pt.depth < upperThreshold && random() < (pt.depth - (upperThreshold - smooth))/smooth) // just below upper threshold
+                );
+            }
+
+            if(filtered.length > 0.03*pts.length) { // in case thresholding is too extreme, try again
+                pts = filtered;
+                break;
+            }
+        }
+
         this.n_col.setSeed();
         for(let pt of pts) {
             let c = this.n_col.n(pt.x, pt.y);
             pt.col = lerpColor(this.startCol, this.endCol, c);
         }
 
-        this.n_depth.setSeed();
+        colorMode(HSB);
         for(let pt of pts) {
-            let depth = this.n_depth.n(pt.x, pt.y);
-            pt.depth = depth;
+            let h = hue(pt.col);
+            let s = saturation(pt.col);
+            pt.lightCol = color(h, s, 255);
+            pt.darkCol = color(h, s, 0);
         }
-
-        // this.n_norm.setSeed();
-        // for(let pt of pts) {
-        //     let norm = PI * this.n_norm.n(pt.x, pt.y);
-        //     pt.norm = norm;
-
-        //     let surfaceNormal = p5.Vector.fromAngle(norm);
-
-        //     let lightIntensity = constrain(
-        //         p5.Vector.dot(lightDir, surfaceNormal) ** 2, 0, 1
-        //     );
-
-        //     pt.lightIntensity = lightIntensity;
-
-        //     let towards, amt = -1;
-
-        //     if(lightIntensity > 0.80) {
-        //         towards = lightCol;
-        //         amt = map(lightIntensity, 0.80, 1, 0, 0.20);
-        //     } else if (lightIntensity < 0.20) {
-        //         towards = darkCol;
-        //         amt =  map(1 - lightIntensity, 0.80, 1, 0, 0.20);
-        //     }
-
-        //     if(amt != -1) {
-        //         pt.col = lerpColor(pt.col, towards, amt);
-        //     }
-        // }
+        colorMode(RGB);
 
         this.n_anchor_a.setSeed();
         for(let pt of pts) {
@@ -316,41 +354,11 @@ class NoiseLayer {
             pt.anchor_b = anchor;
         }
 
-        // Fixed Thresholding
-        // pts = pts.filter(pt => pt.depth > 0.2 && pt.depth < 0.9);
-
-        // Random Thresholding
-        let lowerThreshold = random(0.1, 0.9);
-        let upperThreshold = random(0.1, 0.9);
-        if(lowerThreshold > upperThreshold) {
-            let tmp = lowerThreshold;
-            lowerThreshold = upperThreshold;
-            upperThreshold = tmp;
-        }
-
-        let smooth = 0.025;
-
-        let inside = random([true, false]);
-        let doLower = random() > 0.25;
-        let doUpper = random() > 0.25;
-
-        if(doLower) {
-            if(inside) {
-                pts = pts.filter(pt => 
-                    pt.depth > lowerThreshold || 
-                    (pt.depth > (lowerThreshold - smooth) && random() > (lowerThreshold-pt.depth)/smooth)
-                );
-            } else {
-                pts = pts.filter(pt => pt.depth < lowerThreshold || (pt.depth < (lowerThreshold + smooth) && random() > (lowerThreshold-pt.depth)/smooth));
-            }
-        }
-
-        if(doUpper) {
-            if(inside) {
-                pts = pts.filter(pt => pt.depth < upperThreshold || (pt.depth < (upperThreshold + smooth) && random() > (pt.depth-upperThreshold)/smooth));
-            } else {
-                pts = pts.filter(pt => pt.depth > upperThreshold || (pt.depth > (upperThreshold - smooth) && random() > (pt.depth-upperThreshold)/smooth));
-            }
+        this.n_nPtMod.setSeed();
+        let easeIn = (t) => t**5;
+        for(let pt of pts) {
+            let nPtMod = this.n_nPtMod.n(pt.x, pt.y);
+            pt.nPtMod = easeIn(nPtMod);
         }
 
         return pts;
@@ -358,10 +366,14 @@ class NoiseLayer {
 }
 
 function renderBackground() {
+    clear();
     push();
     noStroke();
-    let colA = p.r();
-    let colB = p.r();
+    p.shuffle();
+
+    let colA = p.get(0);
+    let colB = p.get(1);
+    // gradFill([0, 0], [width, height], colA, colB);
 
     let gradEdges = shuffleArray([0, 1, 2, 3]);
 
@@ -386,13 +398,15 @@ function renderBackground() {
         colB
     );
     rect(0,0,width,height);
-    granulate(10);
+    granulate(3);
 
-    blendMode(random([BLEND, MULTIPLY, HARD_LIGHT]));
+    blendMode(random([BLEND, MULTIPLY, HARD_LIGHT, BURN]));
 
-    colA = p.r();
+    p.shuffle();
+
+    colA = p.get(0);
     colA = color(colA.levels[0], colA.levels[1], colA.levels[2], 0.5*255);
-    colB = p.r();
+    colB = p.get(1);
     colB = color(colB.levels[0], colB.levels[1], colB.levels[2], 0.5*255);
     gradFill(
         gradPoints[2], 
@@ -402,10 +416,10 @@ function renderBackground() {
     );
     rect(0,0,width,height);
 
-
-    granulate(10);
+    granulate(4);
     pop();
 }
+
 
 function adjNoise(x=0,y=0,z=0) {
     let n = noise(x, y, z);
@@ -415,105 +429,58 @@ function adjNoise(x=0,y=0,z=0) {
     return n;
 }
 
-function scribblyBez(a, a1, a2, b, col) {
-    let density = 0.00075 * dim;
-    let d = 0;
-    d += dist(...a, ...a1);
-    d += dist(...a1, ...a2);
-    d += dist(...a2, ...b);
-    let count = floor(d/density);
-
-    for(let i = 0; i < count; i++) {
-        let t = i/count;
-        let x = bezierPoint(a[0], a1[0], a2[0], b[0], t);
-        let y = bezierPoint(a[1], a1[1], a2[1], b[1], t);
-
-        let r = lerp(0.00075*dim, 0.0025*dim, random());
-        let p = nPoint([x, y], r * 3, 0.01); 
-
-        let diff = getBorderDiff(p[0], p[1]);
-        // if(p[0] < borderSize|| p[0] > width - borderSize || p[1] < borderSize || p[1] > height - borderSize) {
-        //     console.log("OUTSIDE:", diff)
-        //     break;
-        // } else {
-        //     console.log("INSIDE:", diff)
-        // }
-        if(diff[0] > 0 || diff[1] > 0) {
-            if(diff[0] > 0 && diff[1] > 0) {
-                let chanceA = diff[0] / borderSize;
-                let chanceB = diff[1] / borderSize;
-
-                if(random() < chanceA) {
-                    break;
-                }
-                if(random() < chanceB) {
-                    break;
-                }
-                
-            } else {
-                let nearest;
-                if(diff[0] == -1) {
-                    nearest = diff[1];
-                } else if (diff[1] == -1) {
-                    nearest = diff[0];
-                }
-
-                let chance = nearest / borderSize;
-                if(random() < chance) break;
-            }
-        }
-
-
-        fill(colTrans(wobbleCol(col, 0.05), random(0.5, 1)));
-        circle(...p, r);    
-    }
-}
-
-function scribblyLine(a, b, col) {
+function scribblySegment(mode='line', lineData, col, nPtMod = 0) {
     let density = 0.001 * dim;
-    let count = floor(dist(...a, ...b)/density);
+    let count;
+
+    if(mode == 'line') {
+        count = floor(dist(...lineData.a, ...lineData.b)/density);
+    } else {
+        let d = 0;
+        d += dist(...lineData.a, ...lineData.a1) * 0.75;
+        d += dist(...lineData.a1, ...lineData.a2) * 0.75;
+        d += dist(...lineData.a2, ...lineData.b) * 0.75;
+        count = floor(d/density);
+    }
+
+    let nPtBase = 0.002;
+    let nPtIncrease = lerp(0.001, 0.01, nPtMod);
 
     for(let i = 0; i < count; i++) {
         let t = i/count;
-        let x = lerp(a[0], b[0], t);
-        let y = lerp(a[1], b[1], t);
+        let x, y;
 
-        // let r = lerp(0.0005*width, 0.0015*width, random());
-        let r = lerp(0.00075*dim, 0.0025*dim, random());
-        let p = nPoint([x, y], r * 3, 0.01); 
+        if(mode == 'line') {
+            x = lerp(lineData.a[0], lineData.b[0], t);
+            y = lerp(lineData.a[1], lineData.b[1], t);
+        } else {
+            x = bezierPoint(lineData.a[0], lineData.a1[0], lineData.a2[0], lineData.b[0], t);
+            y = bezierPoint(lineData.a[1], lineData.a1[1], lineData.a2[1], lineData.b[1], t);
+        }
+    
+        let nPtR = lerp(nPtBase*dim, nPtBase + nPtIncrease*dim, 1 - randomGaussian());
+        let p = nPoint([x, y], nPtR, 0.01); 
 
         let diff = getBorderDiff(p[0], p[1]);
-        // if(p[0] < borderSize|| p[0] > width - borderSize || p[1] < borderSize || p[1] > height - borderSize) {
-        //     console.log("OUTSIDE:", diff)
-        //     break;
-        // } else {
-        //     console.log("INSIDE:", diff)
-        // }
-        if(diff[0] > 0 || diff[1] > 0) {
-            if(diff[0] > 0 && diff[1] > 0) {
+        let chance = 0;
+        if(diff[0] || diff[1]) {
+            if(diff[0] && diff[1]) {
                 let chanceA = diff[0] / borderSize;
                 let chanceB = diff[1] / borderSize;
-
-                if(random() > chanceA) {
-                    if(random() > chanceB) {
-                        break;
-                    }
-                }
-            } else {
-                let nearest;
-                if(diff[0] == -1) {
-                    nearest = diff[1];
-                } else if (diff[1] == -1) {
-                    nearest = diff[0];
-                }
-
-                let chance = nearest / borderSize;
-                if(random() < chance) break;
+                chance = max(chanceA, chanceB);
+            } else if(diff[0] == -1 && diff[1] > 0) {
+                chance = diff[1]/borderSize;
+            } else if (diff[1] == -1 && diff[0] > 0) {
+                chance = diff[0]/borderSize;
             }
         }
+        if (random() < chance) break;
 
-        // if(random() > 0.99) blendMode(random([BLEND, HARD_LIGHT]));
-        fill(colTrans(wobbleCol(col, 0.05), random(0.5, 1)));
+        let opacityMod = (1 - nPtMod)*0.25
+
+
+        fill(colTrans(wobbleCol(col, 0.05), opacityMod + random(0.3, 0.6)));
+        let r = lerp(0.001*dim, 0.0025*dim, random());
         circle(...p, r);    
     }
 }

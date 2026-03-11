@@ -1,3 +1,5 @@
+let minSeen = Infinity;
+let maxSeen = -Infinity;
 class Noise {
     constructor(detail, layers=1, ydetail=-1, scaleToCanvas=true) {
         this.seed = round(random()*100000000);
@@ -35,8 +37,8 @@ class Noise {
 
     n(x=0, y=0, z=0) {
         if(this.scaleToCanvas) {
-            x /= width;
-            y /= height;
+            x /= min(width, height);
+            y /= min(width, height);
         }
 
         let n = 0;
@@ -50,8 +52,14 @@ class Noise {
             n += l * layer[3];
         });
 
-        n = map(n, -1, 1, 0, 1);
+        // if(random() > 0.98) console.log(n);
+        minSeen = min(minSeen, n);
+        maxSeen = max(maxSeen, n);
 
-        return constrain(n, 0, 1);
+        return n;
+
+        // n = map(n, -1, 1, 0, 1);
+
+        // return constrain(n, 0, 1);
     }
 }

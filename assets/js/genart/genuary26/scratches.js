@@ -17,6 +17,7 @@ function regenerate() {
     granulated = false;
     p = getPalette();
     c = new Composition();
+    clear();
     renderGen = c.render();
     loop();
 }

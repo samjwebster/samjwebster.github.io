@@ -55,14 +55,6 @@ class Composition {
         this.colInnerInactive = p.get(2);
         this.colOuterInactive = p.get(3);
 
-
-        // this.colInnerActive = color("#088c42")
-        // this.colOuterActive = color("#065c2b")
-
-        // this.colInnerInactive = color("#222222")
-        // this.colOuterInactive = color("#111111");
-        
-
         this.setup();
     }
 
@@ -73,8 +65,8 @@ class Composition {
             [random([0, 1]), random([0, 1]), random([0, 1])]
         ];
         
-        let depth = floor(random(24, 48));
-        depth = 80;
+        let depth = floor(random(40, 120));
+        // depth = 80;
         let automata = new ElementaryAutomata(round(random()*255));
 
         for(let i = 3; i < depth; i++) {

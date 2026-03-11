@@ -22,7 +22,7 @@ function setup() {
 
 function regenerate() {
     p = getPalette();
-    p.makeMonochromatic(overwrite=true, focus=null, amount=0.90);
+    // p.makeMonochromatic(overwrite=true, focus=null, amount=0.90);
     // p.saturate(0.9)
 
     heightSeed = round(random(9999999999999));
@@ -136,8 +136,8 @@ class Composition {
         // background(lerpColor(p.r(), color(255), random(0.33, 0.66)));
         push();
         let bgc = p.r();
-        let bgL = lerpColor(bgc, color(255), 0.33);
-        let bgD = lerpColor(bgc, color(0), 0.33);
+        let bgL = lerpColor(bgc, color(255), 0.50);
+        let bgD = lerpColor(bgc, color(0), 0.10);
 
         let bgGrad = drawingContext.createLinearGradient(0, 0, 0, height);
         bgGrad.addColorStop(0, bgL);

@@ -315,7 +315,7 @@ class Terrain {
             return a.depth - b.depth;
         });
 
-        print(toRender[0]);
+        // print(toRender[0]);
 
         let skipper = 60;
 
@@ -358,7 +358,7 @@ class Terrain {
                 let triLeft = [newPos[0] - random(0.25)*r.w, newPos[1]];
                 let triRight = [newPos[0] + random(0.25)*r.w, newPos[1]];
                 let norm = (r.surfaceDir - PI/2)+random(-0.1, 0.1)*PI;
-                let triTop = [newPos[0] + dMod*cos(norm)*(random(r.w*2)), newPos[1] + dMod*sin(norm)*(random(r.w*2))];
+                let triTop = [newPos[0] + dMod*cos(norm)*(random(r.w*random(2, 3))), newPos[1] + dMod*sin(norm)*(random(r.w*2))];
 
                 fill(wobbleCol(c, 0.025));
                 triangle(...triLeft, ...triRight, ...triTop);

@@ -44,12 +44,12 @@ class Composition {
         background(p.r());
         yield;
 
-        let sampleRes = 0.005*min(width, height);
+        let sampleRes = 0.0040*min(width, height);
         let countX = ceil(width/sampleRes);
         let countY = ceil(height/sampleRes);
 
         let aOff = random()*TAU;
-        let rRange = [0.025 * min(width, height), 0.075 * min(width, height)];
+        let rRange = [0.0125 * min(width, height), 0.05 * min(width, height)];
 
         let xNMod = random(1);
         let yNMod = random(1);
@@ -60,8 +60,10 @@ class Composition {
         // modulator = 4;
         let modulatorOffset = random(-1, 1)*PI/2;
 
-        let nDetail = 0.75;
-        nDetail = 0.25;
+        // let nDetail = 0.75;
+        // nDetail = 0.25;
+
+        let nDetail = random(0.25, 1.5);
 
         let ptsToDo = [];
 
